@@ -2,14 +2,15 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import User from "@/models/User";
 import { connectDB } from "@/lib/mongodb";
-import { createToken, setAuthCookie } from "@/lib/auth";
+import { createToken } from "@/lib/auth";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
     await connectDB();
     const { name, email, password, role } = await req.json();
 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    const exists = await User.findOne({ email });
+    if (exists) {
         return NextResponse.json(
             { message: "Email already exists" },
             { status: 400 }
@@ -25,8 +26,16 @@ export async function POST(req: Request) {
         role,
     });
 
-    const token = createToken(user._id);
-    setAuthCookie(token);
+    const token = createToken(user._id.toString());
+
+    const cookieStore = await cookies();
+    cookieStore.set("auth_token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+    });
 
     return NextResponse.json({
         id: user._id,

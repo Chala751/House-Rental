@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 export function useAuth() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<{ id: string; name: string; email: string; role: string } | null>(null);
     const [loading, setLoading] = useState(true);
 
     async function fetchUser() {
@@ -34,7 +34,7 @@ export function useAuth() {
         await fetchUser();
     }
 
-    async function signup(data: any) {
+    async function signup(data: { name: string; email: string; password: string }) {
         const res = await fetch("/api/auth/signup", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

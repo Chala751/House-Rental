@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import User from "@/models/User";
 import { connectDB } from "@/lib/mongodb";
-import { getAuthCookie, verifyToken } from "@/lib/auth";
+import { verifyToken } from "@/lib/auth";
 
 export async function GET() {
     await connectDB();
 
-    const token = getAuthCookie();
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
     if (!token) {
         return NextResponse.json(null, { status: 401 });
     }
