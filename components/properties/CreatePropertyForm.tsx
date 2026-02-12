@@ -10,12 +10,13 @@ export default function CreatePropertyForm() {
         description: "",
         location: "",
         pricePerNight: "",
-        images: "",
+        imageUrls: "",
         amenities: "",
         bedrooms: "",
         bathrooms: "",
         maxGuests: "",
     });
+    const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,27 +27,23 @@ export default function CreatePropertyForm() {
         setSuccess("");
         setIsSubmitting(true);
 
-        const payload = {
-            ...form,
-            pricePerNight: Number(form.pricePerNight),
-            images: form.images
-                .split(",")
-                .map((i) => i.trim())
-                .filter(Boolean),
-            amenities: form.amenities
-                .split(",")
-                .map((i) => i.trim())
-                .filter(Boolean),
-            bedrooms: form.bedrooms ? Number(form.bedrooms) : undefined,
-            bathrooms: form.bathrooms ? Number(form.bathrooms) : undefined,
-            maxGuests: form.maxGuests ? Number(form.maxGuests) : undefined,
-        };
+        const payload = new FormData();
+        payload.append("title", form.title);
+        payload.append("description", form.description);
+        payload.append("location", form.location);
+        payload.append("pricePerNight", form.pricePerNight);
+        payload.append("amenities", form.amenities);
+        payload.append("bedrooms", form.bedrooms);
+        payload.append("bathrooms", form.bathrooms);
+        payload.append("maxGuests", form.maxGuests);
+        payload.append("imageUrls", form.imageUrls);
+
+        selectedImages.forEach((file) => payload.append("images", file));
 
         try {
             const res = await fetch("/api/properties", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+                body: payload,
             });
 
             if (!res.ok) {
@@ -60,12 +57,13 @@ export default function CreatePropertyForm() {
                 description: "",
                 location: "",
                 pricePerNight: "",
-                images: "",
+                imageUrls: "",
                 amenities: "",
                 bedrooms: "",
                 bathrooms: "",
                 maxGuests: "",
             });
+            setSelectedImages([]);
             router.refresh();
         } catch {
             setError("Something went wrong. Try again.");
@@ -208,13 +206,34 @@ export default function CreatePropertyForm() {
 
                 <div>
                     <label htmlFor="images" className="mb-1 block text-sm font-semibold text-slate-700">
-                        Image URLs (comma separated)
+                        Upload images
                     </label>
                     <input
                         id="images"
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) =>
+                            setSelectedImages(e.target.files ? Array.from(e.target.files) : [])
+                        }
+                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold hover:file:bg-slate-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                    />
+                    {selectedImages.length > 0 && (
+                        <p className="mt-1 text-xs text-slate-600">
+                            {selectedImages.length} image(s) selected
+                        </p>
+                    )}
+                </div>
+
+                <div>
+                    <label htmlFor="imageUrls" className="mb-1 block text-sm font-semibold text-slate-700">
+                        Extra image URLs (optional, comma separated)
+                    </label>
+                    <input
+                        id="imageUrls"
                         placeholder="https://..., https://..."
-                        value={form.images}
-                        onChange={(e) => setForm({ ...form, images: e.target.value })}
+                        value={form.imageUrls}
+                        onChange={(e) => setForm({ ...form, imageUrls: e.target.value })}
                         className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                     />
                 </div>
