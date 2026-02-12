@@ -46,7 +46,15 @@ export default function PropertyGrid() {
             {properties.map((p) => (
                 <Link key={p._id} href={`/properties/${p._id}`} className="group">
                     <div className="h-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-                        <div className="mb-4 h-36 rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                        {p.images?.[0] ? (
+                            <img
+                                src={p.images[0]}
+                                alt={p.title}
+                                className="mb-4 h-36 w-full rounded-xl object-cover"
+                            />
+                        ) : (
+                            <div className="mb-4 h-36 rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                        )}
                         <h3 className="text-lg font-bold transition group-hover:text-orange-700">
                             {p.title}
                         </h3>
