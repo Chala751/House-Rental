@@ -46,7 +46,7 @@ export default async function RootLayout({
 
             <footer className="border-t border-slate-200 bg-white">
               <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 text-xs text-slate-600 md:px-8">
-                <p>© 2026 StayScape</p>
+                <p>(c) 2026 StayScape</p>
                 <p>Secure home rental platform</p>
               </div>
             </footer>
