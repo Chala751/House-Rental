@@ -30,21 +30,6 @@ export default function HomePage() {
     <main className="min-h-screen bg-slate-50 text-slate-900">
       <section className="relative overflow-hidden bg-gradient-to-br from-amber-100 via-orange-50 to-sky-100">
         <div className="mx-auto max-w-6xl px-6 pb-20 pt-8 md:px-10 md:pb-24">
-          <header className="mb-16 flex items-center justify-between rounded-2xl border border-white/70 bg-white/70 px-5 py-3 backdrop-blur-sm">
-            <p className="text-lg font-bold tracking-tight">StayScape</p>
-            <nav className="flex items-center gap-4 text-sm font-medium">
-              <Link href="/auth/login" className="hover:text-orange-700">
-                Log in
-              </Link>
-              <Link
-                href="/auth/signup"
-                className="rounded-full bg-slate-900 px-4 py-2 text-white transition hover:bg-slate-700"
-              >
-                Sign up
-              </Link>
-            </nav>
-          </header>
-
           <div className="grid items-center gap-10 md:grid-cols-2">
             <div>
               <p className="mb-4 inline-flex rounded-full border border-orange-200 bg-white px-4 py-1 text-sm font-semibold text-orange-700">
