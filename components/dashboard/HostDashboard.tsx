@@ -110,6 +110,15 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                                     key={String(listing._id)}
                                     className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
                                 >
+                                    {Array.isArray(listing.images) && listing.images[0] ? (
+                                        <img
+                                            src={String(listing.images[0])}
+                                            alt={String(listing.title)}
+                                            className="mb-4 h-40 w-full rounded-xl object-cover"
+                                        />
+                                    ) : (
+                                        <div className="mb-4 h-40 w-full rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                    )}
                                     <div className="flex flex-wrap items-start justify-between gap-3">
                                         <div>
                                             <h3 className="text-lg font-bold text-slate-900">
