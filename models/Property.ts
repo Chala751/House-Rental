@@ -22,9 +22,15 @@ const PropertySchema = new Schema(
             required: true,
         },
 
-        images: [String],
+        images: {
+            type: [String],
+            default: [],
+        },
 
-        amenities: [String],
+        amenities: {
+            type: [String],
+            default: [],
+        },
 
         bedrooms: Number,
         bathrooms: Number,
