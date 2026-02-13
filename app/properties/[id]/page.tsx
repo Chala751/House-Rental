@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
+import User from "@/models/User";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
 import BookingPanel from "@/components/properties/BookingPanel";
@@ -18,13 +19,17 @@ export default async function PropertyPage({
     );
     const token = (await cookies()).get("auth_token")?.value;
     let isSignedIn = false;
+    let canBook = false;
 
     if (token) {
         try {
-            verifyToken(token);
+            const { userId } = verifyToken(token);
             isSignedIn = true;
+            const user = await User.findById(userId).select("role");
+            canBook = !!user && (user.role === "renter" || user.role === "both");
         } catch {
             isSignedIn = false;
+            canBook = false;
         }
     }
 
@@ -140,6 +145,7 @@ export default async function PropertyPage({
                         nightlyRate={price}
                         hostName={String(property.host?.name || "Unknown host")}
                         isSignedIn={isSignedIn}
+                        canBook={canBook}
                     />
                 </section>
             </div>

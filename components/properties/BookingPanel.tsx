@@ -9,6 +9,7 @@ type BookingPanelProps = {
     nightlyRate: number;
     hostName: string;
     isSignedIn: boolean;
+    canBook: boolean;
 };
 
 const ONE_DAY_MS = 1000 * 60 * 60 * 24;
@@ -21,8 +22,16 @@ function getTodayISODate() {
     return `${yyyy}-${mm}-${dd}`;
 }
 
+function parseISODate(value: string) {
+    const [year, month, day] = value.split("-").map(Number);
+    if (!year || !month || !day) {
+        return new Date("invalid");
+    }
+    return new Date(year, month - 1, day);
+}
+
 function addDaysISODate(dateStr: string, days: number) {
-    const base = new Date(dateStr);
+    const base = parseISODate(dateStr);
     if (Number.isNaN(base.getTime())) {
         return "";
     }
@@ -38,6 +47,7 @@ export default function BookingPanel({
     nightlyRate,
     hostName,
     isSignedIn,
+    canBook,
 }: BookingPanelProps) {
     const router = useRouter();
     const today = getTodayISODate();
@@ -49,8 +59,8 @@ export default function BookingPanel({
     const [bookedId, setBookedId] = useState("");
 
     const nights = useMemo(() => {
-        const from = new Date(checkIn);
-        const to = new Date(checkOut);
+        const from = parseISODate(checkIn);
+        const to = parseISODate(checkOut);
         if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
             return 0;
         }
@@ -120,7 +130,9 @@ export default function BookingPanel({
                     </p>
                     <div className="mt-3 flex gap-2">
                         <Link
-                            href="/auth/login"
+                            href={`/auth/login?next=${encodeURIComponent(
+                                `/properties/${propertyId}#book-panel`
+                            )}`}
                             className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
                         >
                             Sign in
@@ -132,6 +144,15 @@ export default function BookingPanel({
                             Create account
                         </Link>
                     </div>
+                </div>
+            ) : !canBook ? (
+                <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
+                    <p className="text-sm font-semibold text-amber-700">
+                        Booking is available only for renter accounts.
+                    </p>
+                    <p className="mt-1 text-xs text-amber-700/90">
+                        Use a renter account or update your role to renter/both.
+                    </p>
                 </div>
             ) : (
                 <div className="mt-6 space-y-4">
