@@ -106,7 +106,7 @@ export default function PropertyGrid() {
                             href={
                                 user && (user.role === "renter" || user.role === "both")
                                     ? `/properties/${p._id}#book-panel`
-                                    : "/auth/login"
+                                    : `/auth/login?next=/properties/${p._id}#book-panel`
                             }
                             className="flex-1 rounded-xl bg-emerald-600 px-3 py-2 text-center text-sm font-semibold text-white transition hover:bg-emerald-500"
                         >
