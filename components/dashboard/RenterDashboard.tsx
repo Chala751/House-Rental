@@ -2,6 +2,7 @@ import Link from "next/link";
 import { connectDB } from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import Property from "@/models/Property";
+import LogoutButton from "@/components/layout/LogoutButton";
 
 type RenterUser = {
     _id: string;
@@ -88,12 +89,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                         >
                             Explore properties
                         </Link>
-                        <Link
-                            href="/auth/logout"
-                            className="rounded-full border border-white/30 px-5 py-2.5 text-sm font-semibold text-white transition hover:border-white/60"
-                        >
-                            Logout
-                        </Link>
+                        <LogoutButton />
                     </div>
                 </section>
 
