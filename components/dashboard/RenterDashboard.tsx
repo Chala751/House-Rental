@@ -48,6 +48,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
         .sort({ createdAt: -1 })
         .limit(4)
         .select("title location pricePerNight images")
+        .populate("host", "name")
         .lean();
 
     const totalBookings = bookings.length;
@@ -253,12 +254,13 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                     const image = Array.isArray(property.images)
                                         ? property.images[0]
                                         : null;
+                                    const host = property.host as { name?: string } | null;
                                     return (
-                                        <Link
+                                        <div
                                             key={String(property._id)}
-                                            href={`/properties/${String(property._id)}`}
-                                            className="block overflow-hidden rounded-xl border border-slate-200 transition hover:border-slate-300 hover:shadow-sm"
+                                            className="overflow-hidden rounded-xl border border-slate-200 transition hover:border-slate-300 hover:shadow-sm"
                                         >
+                                            <Link href={`/properties/${String(property._id)}`} className="block">
                                             {image ? (
                                                 <img
                                                     src={String(image)}
@@ -275,8 +277,20 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                                 <p className="mt-1 line-clamp-1 text-xs text-slate-600">
                                                     {String(property.location)}
                                                 </p>
+                                                <p className="mt-1 line-clamp-1 text-xs text-slate-500">
+                                                    Host: {String(host?.name || "Unknown host")}
+                                                </p>
                                             </div>
-                                        </Link>
+                                            </Link>
+                                            <div className="p-3 pt-0">
+                                                <Link
+                                                    href={`/properties/${String(property._id)}#book-panel`}
+                                                    className="block rounded-lg bg-emerald-600 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-emerald-500"
+                                                >
+                                                    Book now
+                                                </Link>
+                                            </div>
+                                        </div>
                                     );
                                 })}
                             </div>
