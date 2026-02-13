@@ -46,6 +46,7 @@ export default function BookingPanel({
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [bookedId, setBookedId] = useState("");
 
     const nights = useMemo(() => {
         const from = new Date(checkIn);
@@ -63,6 +64,7 @@ export default function BookingPanel({
     async function handleBook() {
         setError("");
         setSuccess("");
+        setBookedId("");
 
         if (nights <= 0) {
             setError("Check-out must be after check-in.");
@@ -88,6 +90,9 @@ export default function BookingPanel({
             }
 
             setSuccess("Booking confirmed. You can view it in your dashboard.");
+            if (data?._id) {
+                setBookedId(String(data._id));
+            }
             router.refresh();
         } catch {
             setError("Something went wrong while creating booking.");
@@ -101,10 +106,11 @@ export default function BookingPanel({
             id="book-panel"
             className="h-fit scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6"
         >
-            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                Nightly rate
+            <p className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                Reserve this stay
             </p>
-            <p className="mt-1 text-4xl font-black text-slate-900">${formattedNightlyRate}</p>
+            <p className="mt-3 text-4xl font-black text-slate-900">${formattedNightlyRate}</p>
+            <p className="mt-1 text-sm text-slate-500">per night</p>
             <p className="mt-4 text-sm text-slate-600">Hosted by {hostName}</p>
 
             {!isSignedIn ? (
@@ -171,10 +177,23 @@ export default function BookingPanel({
                     </div>
 
                     <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-                        <p>{nights > 0 ? `${nights} night(s)` : "Select valid dates"}</p>
-                        <p className="mt-1 font-semibold text-slate-900">
-                            Total: ${formattedTotal}
-                        </p>
+                        <div className="flex items-center justify-between">
+                            <p>
+                                ${formattedNightlyRate} x {nights > 0 ? nights : 0} night(s)
+                            </p>
+                            <p>${formattedTotal}</p>
+                        </div>
+                        <div className="mt-2 border-t border-slate-200 pt-2">
+                            <div className="flex items-center justify-between font-semibold text-slate-900">
+                                <p>Total</p>
+                                <p>${formattedTotal}</p>
+                            </div>
+                        </div>
+                        {nights <= 0 && (
+                            <p className="mt-2 text-xs font-medium text-red-600">
+                                Select valid dates to continue.
+                            </p>
+                        )}
                     </div>
 
                     {error && (
@@ -183,15 +202,28 @@ export default function BookingPanel({
                         </p>
                     )}
                     {success && (
-                        <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-                            {success}
-                        </p>
+                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-3 text-sm text-emerald-700">
+                            <p>{success}</p>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                <Link
+                                    href="/dashboard"
+                                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-500"
+                                >
+                                    Go to dashboard
+                                </Link>
+                                {bookedId && (
+                                    <span className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-emerald-700">
+                                        Booking ID: {bookedId}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
                     )}
 
                     <button
                         type="button"
                         onClick={handleBook}
-                        disabled={submitting}
+                        disabled={submitting || nights <= 0}
                         className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         {submitting ? "Booking..." : "Book this property"}
