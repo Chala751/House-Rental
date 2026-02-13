@@ -105,9 +105,9 @@ export default function PropertyGrid() {
                         <Link
                             href={
                                 user && (user.role === "renter" || user.role === "both")
-                                    ? `/properties/${p._id}#book-panel`
+                                    ? `/properties/${p._id}?book=1#book-panel`
                                     : `/auth/login?next=${encodeURIComponent(
-                                          `/properties/${p._id}#book-panel`
+                                          `/properties/${p._id}?book=1#book-panel`
                                       )}`
                             }
                             className="flex-1 rounded-xl bg-emerald-600 px-3 py-2 text-center text-sm font-semibold text-white transition hover:bg-emerald-500"

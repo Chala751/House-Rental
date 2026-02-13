@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type BookingPanelProps = {
     propertyId: string;
@@ -50,6 +50,8 @@ export default function BookingPanel({
     canBook,
 }: BookingPanelProps) {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const panelRef = useRef<HTMLElement | null>(null);
     const today = getTodayISODate();
     const [checkIn, setCheckIn] = useState(today);
     const [checkOut, setCheckOut] = useState(addDaysISODate(today, 1));
@@ -70,6 +72,17 @@ export default function BookingPanel({
     const totalPrice = nights > 0 ? nights * nightlyRate : 0;
     const formattedNightlyRate = new Intl.NumberFormat("en-US").format(nightlyRate);
     const formattedTotal = new Intl.NumberFormat("en-US").format(totalPrice);
+
+    useEffect(() => {
+        const shouldFocusPanel =
+            searchParams.get("book") === "1" || window.location.hash === "#book-panel";
+
+        if (!shouldFocusPanel || !panelRef.current) {
+            return;
+        }
+
+        panelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, [searchParams]);
 
     async function handleBook() {
         setError("");
@@ -114,6 +127,7 @@ export default function BookingPanel({
     return (
         <aside
             id="book-panel"
+            ref={panelRef}
             className="h-fit scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6"
         >
             <p className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">

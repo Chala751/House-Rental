@@ -284,7 +284,9 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                             </Link>
                                             <div className="p-3 pt-0">
                                                 <Link
-                                                    href={`/properties/${String(property._id)}#book-panel`}
+                                                    href={`/properties/${String(
+                                                        property._id
+                                                    )}?book=1#book-panel`}
                                                     className="block rounded-lg bg-emerald-600 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-emerald-500"
                                                 >
                                                     Book now
