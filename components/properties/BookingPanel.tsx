@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 type BookingPanelProps = {
     propertyId: string;
@@ -50,8 +50,8 @@ export default function BookingPanel({
     canBook,
 }: BookingPanelProps) {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const panelRef = useRef<HTMLElement | null>(null);
+    const didAutoFocusRef = useRef(false);
     const today = getTodayISODate();
     const [checkIn, setCheckIn] = useState(today);
     const [checkOut, setCheckOut] = useState(addDaysISODate(today, 1));
@@ -74,15 +74,21 @@ export default function BookingPanel({
     const formattedTotal = new Intl.NumberFormat("en-US").format(totalPrice);
 
     useEffect(() => {
+        if (didAutoFocusRef.current) {
+            return;
+        }
+
         const shouldFocusPanel =
-            searchParams.get("book") === "1" || window.location.hash === "#book-panel";
+            new URLSearchParams(window.location.search).get("book") === "1" ||
+            window.location.hash === "#book-panel";
 
         if (!shouldFocusPanel || !panelRef.current) {
             return;
         }
 
+        didAutoFocusRef.current = true;
         panelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, [searchParams]);
+    }, []);
 
     async function handleBook() {
         setError("");
