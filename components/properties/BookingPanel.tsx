@@ -97,7 +97,10 @@ export default function BookingPanel({
     }
 
     return (
-        <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6">
+        <aside
+            id="book-panel"
+            className="h-fit scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6"
+        >
             <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
                 Nightly rate
             </p>
