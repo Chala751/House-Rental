@@ -30,9 +30,17 @@ const BookingSchema = new Schema(
             required: true,
         },
 
-        nights: Number,
+        nights: {
+            type: Number,
+            required: true,
+            min: 1,
+        },
 
-        totalPrice: Number,
+        totalPrice: {
+            type: Number,
+            required: true,
+            min: 0,
+        },
 
         status: {
             type: String,
@@ -42,5 +50,8 @@ const BookingSchema = new Schema(
     },
     { timestamps: true }
 );
+
+BookingSchema.index({ renter: 1, createdAt: -1 });
+BookingSchema.index({ property: 1, checkIn: 1, checkOut: 1, status: 1 });
 
 export default models.Booking || model("Booking", BookingSchema);
