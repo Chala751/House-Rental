@@ -1,8 +1,8 @@
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
+import BookingPanel from "@/components/properties/BookingPanel";
 
 export default async function PropertyPage({
     params,
@@ -49,7 +49,6 @@ export default async function PropertyPage({
             : [];
 
     const price = Number(property.pricePerNight || 0);
-    const formattedPrice = new Intl.NumberFormat("en-US").format(price);
 
     return (
         <main className="bg-gradient-to-b from-slate-100 via-white to-slate-100">
@@ -136,44 +135,12 @@ export default async function PropertyPage({
                         )}
                     </div>
 
-                    <aside className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6">
-                        <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-                            Nightly rate
-                        </p>
-                        <p className="mt-1 text-4xl font-black text-slate-900">${formattedPrice}</p>
-                        <p className="mt-4 text-sm text-slate-600">
-                            Hosted by {String(property.host?.name || "Unknown host")}
-                        </p>
-
-                        {!isSignedIn ? (
-                            <div className="mt-6 rounded-xl border border-orange-200 bg-orange-50 p-4">
-                                <p className="text-sm font-semibold text-orange-700">
-                                    To book this property, you must sign in.
-                                </p>
-                                <div className="mt-3 flex gap-2">
-                                    <Link
-                                        href="/auth/login"
-                                        className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
-                                    >
-                                        Sign in
-                                    </Link>
-                                    <Link
-                                        href="/auth/signup"
-                                        className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-500"
-                                    >
-                                        Create account
-                                    </Link>
-                                </div>
-                            </div>
-                        ) : (
-                            <button
-                                type="button"
-                                className="mt-6 w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500"
-                            >
-                                Book this property
-                            </button>
-                        )}
-                    </aside>
+                    <BookingPanel
+                        propertyId={String(property._id)}
+                        nightlyRate={price}
+                        hostName={String(property.host?.name || "Unknown host")}
+                        isSignedIn={isSignedIn}
+                    />
                 </section>
             </div>
         </main>
