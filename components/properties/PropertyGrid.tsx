@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 type Property = {
     _id: string;
@@ -9,12 +10,16 @@ type Property = {
     location: string;
     pricePerNight: number;
     images?: string[];
+    host?: {
+        name?: string;
+    };
     bedrooms?: number;
     bathrooms?: number;
     maxGuests?: number;
 };
 
 export default function PropertyGrid() {
+    const { user } = useAuth();
     const [properties, setProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -44,8 +49,11 @@ export default function PropertyGrid() {
     return (
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {properties.map((p) => (
-                <Link key={p._id} href={`/properties/${p._id}`} className="group">
-                    <div className="h-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                <div
+                    key={p._id}
+                    className="h-full rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                    <Link href={`/properties/${p._id}`} className="group block">
                         {p.images?.[0] ? (
                             <img
                                 src={p.images[0]}
@@ -59,6 +67,9 @@ export default function PropertyGrid() {
                             {p.title}
                         </h3>
                         <p className="mt-1 text-sm text-slate-600">{p.location}</p>
+                        <p className="mt-1 text-xs font-medium text-slate-500">
+                            Host: {p.host?.name || "Unknown host"}
+                        </p>
                         <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-500">
                             {typeof p.bedrooms === "number" && (
                                 <span className="rounded-full bg-slate-100 px-2 py-1">
@@ -82,8 +93,27 @@ export default function PropertyGrid() {
                                 / night
                             </span>
                         </p>
+                    </Link>
+
+                    <div className="mt-4 flex gap-2">
+                        <Link
+                            href={`/properties/${p._id}`}
+                            className="flex-1 rounded-xl border border-slate-300 px-3 py-2 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-500"
+                        >
+                            View details
+                        </Link>
+                        <Link
+                            href={
+                                user && (user.role === "renter" || user.role === "both")
+                                    ? `/properties/${p._id}#book-panel`
+                                    : "/auth/login"
+                            }
+                            className="flex-1 rounded-xl bg-emerald-600 px-3 py-2 text-center text-sm font-semibold text-white transition hover:bg-emerald-500"
+                        >
+                            Book now
+                        </Link>
                     </div>
-                </Link>
+                </div>
             ))}
         </div>
     );
