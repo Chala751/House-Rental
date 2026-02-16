@@ -16,9 +16,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={isAuthenticated ? "h-screen overflow-hidden" : "min-h-screen"}>
+      <body className="min-h-screen">
         {isAuthenticated ? (
-          <div className="flex h-screen flex-col overflow-hidden bg-slate-50 text-slate-900">
+          <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
             <header className="border-b border-slate-200 bg-white">
               <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-8">
                 <Link href="/" className="text-lg font-black tracking-tight text-slate-900">
@@ -42,7 +42,7 @@ export default async function RootLayout({
               </div>
             </header>
 
-            <main className="flex-1 overflow-hidden">{children}</main>
+            <main className="flex-1 overflow-y-auto">{children}</main>
 
             <footer className="border-t border-slate-200 bg-white">
               <div className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between px-4 text-xs text-slate-600 md:px-8">
