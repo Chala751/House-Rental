@@ -6,14 +6,12 @@ import { connectDB } from "@/lib/mongodb";
 
 import HostDashboard from "@/components/dashboard/HostDashboard";
 import RenterDashboard from "@/components/dashboard/RenterDashboard";
-import BothDashboard from "@/components/dashboard/BothDashboard";
 
 export default async function DashboardPage() {
     await connectDB();
 
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-
 
     if (!token) {
         redirect("/auth/login");
@@ -31,7 +29,6 @@ export default async function DashboardPage() {
         redirect("/auth/login");
     }
 
-    // 🎭 Role-based rendering
     if (user.role === "host") {
         return <HostDashboard user={user} />;
     }
@@ -41,7 +38,7 @@ export default async function DashboardPage() {
     }
 
     if (user.role === "both") {
-        return <BothDashboard user={user} />;
+        redirect("/dashboard/admin");
     }
 
     return null;
