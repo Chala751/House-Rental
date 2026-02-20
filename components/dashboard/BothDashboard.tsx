@@ -4,12 +4,14 @@ import User from "@/models/User";
 import Property from "@/models/Property";
 import Booking from "@/models/Booking";
 import AdminUsersManager from "./AdminUsersManager";
+import ProfileAvatar from "@/components/layout/ProfileAvatar";
 
 type AdminUser = {
     _id: string;
     name: string;
     role: string;
     email: string;
+    profileImage?: string;
 };
 
 type BothDashboardProps = {
@@ -56,15 +58,34 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                 <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl md:p-8">
                     <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-cyan-500/30 blur-3xl" />
                     <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-emerald-500/20 blur-3xl" />
-                    <p className="relative text-sm font-semibold uppercase tracking-widest text-cyan-300">
-                        Admin dashboard
-                    </p>
-                    <h1 className="relative mt-2 text-3xl font-black md:text-4xl">
-                        Platform control center, {user.name}
-                    </h1>
-                    <p className="relative mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
-                        Access all users, listings, and reservations from one place.
-                    </p>
+                    <div className="relative flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
+                                Admin dashboard
+                            </p>
+                            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+                                Platform control center, {user.name}
+                            </h1>
+                            <p className="mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
+                                Access all users, listings, and reservations from one place.
+                            </p>
+                        </div>
+                        <div className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur">
+                            <div className="flex items-center gap-3">
+                                <ProfileAvatar
+                                    name={user.name}
+                                    imageUrl={user.profileImage}
+                                    size="md"
+                                />
+                                <div>
+                                    <p className="text-sm font-semibold text-white">{user.name}</p>
+                                    <p className="text-xs uppercase tracking-wide text-slate-200">
+                                        Admin account
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="relative mt-5 flex flex-wrap gap-3">
                         <Link
                             href="/dashboard"

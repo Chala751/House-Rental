@@ -3,12 +3,14 @@ import { connectDB } from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import Property from "@/models/Property";
 import LogoutButton from "@/components/layout/LogoutButton";
+import ProfileAvatar from "@/components/layout/ProfileAvatar";
 import Review from "@/models/Review";
 import CompletedStayReviews from "@/components/dashboard/CompletedStayReviews";
 
 type RenterUser = {
     _id: string;
     name: string;
+    profileImage?: string;
 };
 
 type RenterDashboardProps = {
@@ -115,16 +117,35 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                 <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl md:p-8">
                     <div className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-orange-500/30 blur-3xl" />
                     <div className="pointer-events-none absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-sky-500/30 blur-3xl" />
-                    <p className="relative text-sm font-semibold uppercase tracking-widest text-orange-300">
-                        Renter dashboard
-                    </p>
-                    <h1 className="relative mt-2 text-3xl font-black md:text-4xl">
-                        Welcome back, {user.name}
-                    </h1>
-                    <p className="relative mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
-                        Track upcoming stays, manage your reservations, and discover
-                        newly listed homes.
-                    </p>
+                    <div className="relative flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-widest text-orange-300">
+                                Renter dashboard
+                            </p>
+                            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+                                Welcome back, {user.name}
+                            </h1>
+                            <p className="mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
+                                Track upcoming stays, manage your reservations, and discover
+                                newly listed homes.
+                            </p>
+                        </div>
+                        <div className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur">
+                            <div className="flex items-center gap-3">
+                                <ProfileAvatar
+                                    name={user.name}
+                                    imageUrl={user.profileImage}
+                                    size="md"
+                                />
+                                <div>
+                                    <p className="text-sm font-semibold text-white">{user.name}</p>
+                                    <p className="text-xs uppercase tracking-wide text-slate-200">
+                                        Renter account
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div className="relative mt-5 flex flex-wrap gap-3">
                         <Link
                             href="/"

@@ -2,6 +2,7 @@ import "./globals.css";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import LogoutButton from "@/components/layout/LogoutButton";
+import HeaderProfileUploader from "@/components/layout/HeaderProfileUploader";
 
 
 
@@ -37,6 +38,7 @@ export default async function RootLayout({
                   >
                     Dashboard
                   </Link>
+                  <HeaderProfileUploader />
                   <LogoutButton />
                 </nav>
               </div>

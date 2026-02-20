@@ -1,5 +1,6 @@
 import CreatePropertyForm from "@/components/properties/CreatePropertyForm";
 import HostListingsManager from "@/components/dashboard/HostListingsManager";
+import ProfileAvatar from "@/components/layout/ProfileAvatar";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Review from "@/models/Review";
@@ -8,6 +9,7 @@ import { Users, House, DollarSign, Star } from "lucide-react";
 type HostUser = {
     _id: string;
     name: string;
+    profileImage?: string;
 };
 
 type HostDashboardProps = {
@@ -146,16 +148,35 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                 <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl md:p-8">
                     <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-orange-500/30 blur-3xl" />
                     <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-sky-500/20 blur-3xl" />
-                    <p className="relative text-sm font-semibold uppercase tracking-widest text-orange-300">
-                        Host dashboard
-                    </p>
-                    <h1 className="relative mt-2 text-3xl font-black md:text-4xl">
-                        Welcome back, {user.name}
-                    </h1>
-                    <p className="relative mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
-                        Manage your rental business from one place. Track your listings,
-                        update pricing, and publish new homes quickly.
-                    </p>
+                    <div className="relative flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                            <p className="text-sm font-semibold uppercase tracking-widest text-orange-300">
+                                Host dashboard
+                            </p>
+                            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+                                Welcome back, {user.name}
+                            </h1>
+                            <p className="mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
+                                Manage your rental business from one place. Track your listings,
+                                update pricing, and publish new homes quickly.
+                            </p>
+                        </div>
+                        <div className="rounded-2xl border border-white/20 bg-white/10 p-3 backdrop-blur">
+                            <div className="flex items-center gap-3">
+                                <ProfileAvatar
+                                    name={user.name}
+                                    imageUrl={user.profileImage}
+                                    size="md"
+                                />
+                                <div>
+                                    <p className="text-sm font-semibold text-white">{user.name}</p>
+                                    <p className="text-xs uppercase tracking-wide text-slate-200">
+                                        Host account
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
