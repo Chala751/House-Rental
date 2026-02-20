@@ -26,6 +26,23 @@ function formatDate(value: Date | string) {
     }).format(new Date(value));
 }
 
+function normalizeImageUrl(value: string | null) {
+    if (!value) {
+        return null;
+    }
+
+    const clean = value.trim();
+    if (!clean) {
+        return null;
+    }
+
+    if (clean.includes("imagekit.io") && !clean.includes("?tr=")) {
+        return `${clean}?tr=w-400,h-280,c-at_max,q-80`;
+    }
+
+    return clean;
+}
+
 export default async function BothDashboard({ user }: BothDashboardProps) {
     await connectDB();
 
@@ -38,9 +55,9 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
             .lean(),
         Booking.find()
             .select("checkIn checkOut totalPrice status createdAt")
-            .populate("renter", "name email")
+            .populate("renter", "name email profileImage")
             .populate("host", "name email")
-            .populate("property", "title location")
+            .populate("property", "title location images")
             .sort({ createdAt: -1 })
             .lean(),
     ]);
@@ -151,20 +168,53 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                             <h2 className="text-xl font-black text-slate-900">Recent bookings</h2>
                             <div className="mt-4 space-y-3">
                                 {bookings.slice(0, 6).map((item) => {
-                                    const property = item.property as { title?: string } | null;
-                                    const renter = item.renter as { name?: string } | null;
+                                    const property = item.property as {
+                                        title?: string;
+                                        images?: string[];
+                                    } | null;
+                                    const renter = item.renter as {
+                                        name?: string;
+                                        profileImage?: string;
+                                    } | null;
+
+                                    const propertyImage = normalizeImageUrl(
+                                        Array.isArray(property?.images)
+                                            ? String(property.images[0] || "")
+                                            : null
+                                    );
 
                                     return (
                                         <div
                                             key={String(item._id)}
                                             className="rounded-xl border border-slate-200 p-3"
                                         >
-                                            <p className="line-clamp-1 text-sm font-bold text-slate-900">
-                                                {String(property?.title || "Property")}
-                                            </p>
-                                            <p className="mt-1 text-xs text-slate-600">
-                                                Renter: {String(renter?.name || "Unknown")}
-                                            </p>
+                                            <div className="flex items-start gap-3">
+                                                {propertyImage ? (
+                                                    <img
+                                                        src={propertyImage}
+                                                        alt={String(property?.title || "Property")}
+                                                        className="h-12 w-12 rounded-lg object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                                )}
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="line-clamp-1 text-sm font-bold text-slate-900">
+                                                        {String(property?.title || "Property")}
+                                                    </p>
+                                                    <div className="mt-1 flex items-center gap-2">
+                                                        <ProfileAvatar
+                                                            name={String(renter?.name || "Unknown")}
+                                                            imageUrl={renter?.profileImage}
+                                                            size="sm"
+                                                            ringClassName="ring-1 ring-slate-200"
+                                                        />
+                                                        <p className="line-clamp-1 text-xs text-slate-600">
+                                                            Renter: {String(renter?.name || "Unknown")}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <p className="mt-1 text-xs text-slate-600">
                                                 {formatDate(String(item.checkIn))} - {formatDate(String(item.checkOut))}
                                             </p>
