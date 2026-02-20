@@ -1,8 +1,10 @@
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 import { cookies } from "next/headers";
 import LogoutButton from "@/components/layout/LogoutButton";
 import HeaderProfileUploader from "@/components/layout/HeaderProfileUploader";
+import logoImage from "./logo.jpg";
 
 
 
@@ -22,8 +24,16 @@ export default async function RootLayout({
           <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
             <header className="border-b border-slate-200 bg-white">
               <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 md:px-8">
-                <Link href="/" className="text-lg font-black tracking-tight text-slate-900">
-                  StayScape
+                <Link href="/" className="flex items-center gap-2">
+                  <Image
+                    src={logoImage}
+                    alt="StayScape logo"
+                    className="h-9 w-9 rounded-lg object-cover"
+                    priority
+                  />
+                  <span className="text-lg font-black tracking-tight text-slate-900">
+                    StayScape
+                  </span>
                 </Link>
                 <nav className="flex items-center gap-3">
                   <Link
