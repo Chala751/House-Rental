@@ -121,69 +121,69 @@ export default async function HomePage() {
 
     return (
         <main className="min-h-screen bg-gradient-to-b from-slate-100 via-white to-orange-50/40 text-slate-900">
-            <section className="relative overflow-hidden bg-slate-950">
-                <div className="absolute -left-24 top-0 h-80 w-80 rounded-full bg-orange-500/35 blur-3xl" />
-                <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-sky-500/30 blur-3xl" />
-                <div className="absolute bottom-0 left-1/3 h-52 w-52 rounded-full bg-emerald-400/20 blur-3xl" />
-                <div className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:px-10 md:pb-24">
+            <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+                <div className="absolute -left-24 -top-10 h-80 w-80 rounded-full bg-orange-500/35 blur-3xl" />
+                <div className="absolute -right-16 top-16 h-72 w-72 rounded-full bg-sky-500/30 blur-3xl" />
+                <div className="absolute bottom-0 left-1/3 h-56 w-56 rounded-full bg-emerald-400/20 blur-3xl" />
+                <div className="mx-auto max-w-7xl px-6 pb-20 pt-12 md:px-10 md:pb-24">
                     <div className="grid items-center gap-10 lg:grid-cols-2">
                         <div>
-                            <p className="mb-5 inline-flex rounded-full border border-orange-300/40 bg-orange-300/15 px-4 py-1 text-sm font-semibold text-orange-200">
-                                Find your next favorite stay
+                            <p className="inline-flex rounded-full border border-orange-300/40 bg-orange-300/15 px-4 py-1 text-sm font-semibold text-orange-200">
+                                StayScape premium rentals
                             </p>
-                            <h1 className="text-4xl font-black leading-tight text-white md:text-6xl">
-                                Stay anywhere
-                                <span className="block text-orange-300">with confidence.</span>
+                            <h1 className="mt-5 text-4xl font-black leading-tight text-white md:text-6xl">
+                                Book beautiful homes
+                                <span className="block bg-gradient-to-r from-orange-300 to-sky-300 bg-clip-text text-transparent">
+                                    with zero booking stress
+                                </span>
                             </h1>
                             <p className="mt-5 max-w-xl text-base text-slate-300 md:text-lg">
-                                Trusted hosts, clear pricing, and real guest reviews help you
-                                book better homes faster.
+                                Discover verified stays, trusted hosts, and real guest feedback
+                                before you reserve your next trip.
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <Link
                                     href="/auth/signup"
-                                    className="rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-400"
+                                    className="rounded-full bg-orange-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-900/25 transition hover:bg-orange-400"
                                 >
-                                    Start Booking
+                                    Start booking
                                 </Link>
                                 <Link
                                     href="/dashboard"
                                     className="rounded-full border border-slate-500 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-slate-300"
                                 >
-                                    Become a Host
+                                    Become a host
                                 </Link>
                             </div>
-                            <div className="mt-6 flex flex-wrap gap-2">
-                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-                                    Verified hosts
-                                </span>
-                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-                                    Instant booking
-                                </span>
-                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-                                    Secure payments
-                                </span>
+                            <div className="mt-8 grid max-w-xl gap-3 sm:grid-cols-3">
+                                {highlights.map((item) => (
+                                    <div
+                                        key={item.label}
+                                        className="rounded-2xl border border-white/15 bg-white/10 px-3 py-3 backdrop-blur"
+                                    >
+                                        <p className="text-2xl font-black text-white">{item.value}</p>
+                                        <p className="text-xs text-slate-200">{item.label}</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <article className="overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-2xl backdrop-blur">
-                                <div className="relative">
-                                    <Image
-                                        src={heroImage}
-                                        alt="Luxury house rental visual"
-                                        priority
-                                        className="h-64 w-full object-cover md:h-72"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
-                                    <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
-                                        <p className="rounded-full bg-black/55 px-3 py-1 text-xs font-semibold text-white">
-                                            Premium house rentals
-                                        </p>
-                                        <p className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white">
-                                            Trusted by guests
-                                        </p>
-                                    </div>
+                            <article className="relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-2 shadow-2xl backdrop-blur">
+                                <Image
+                                    src={heroImage}
+                                    alt="Luxury house rental visual"
+                                    priority
+                                    className="h-72 w-full rounded-2xl object-cover md:h-80"
+                                />
+                                <div className="absolute inset-2 rounded-2xl bg-gradient-to-t from-slate-950/65 via-transparent to-transparent" />
+                                <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
+                                    <p className="rounded-full bg-black/55 px-3 py-1 text-xs font-semibold text-white">
+                                        Premium house rentals
+                                    </p>
+                                    <p className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+                                        Live availability
+                                    </p>
                                 </div>
                             </article>
 
@@ -205,36 +205,7 @@ export default async function HomePage() {
                                     ))}
                                 </div>
                             </article>
-
-                            <div className="grid gap-4 sm:grid-cols-2">
-                                <article className="rounded-2xl border border-white/20 bg-gradient-to-br from-orange-400/35 to-orange-600/20 p-4 backdrop-blur">
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-orange-100">
-                                        Fast booking
-                                    </p>
-                                    <p className="mt-2 text-2xl font-black text-white">2 min</p>
-                                    <p className="text-xs text-orange-100/90">avg checkout time</p>
-                                </article>
-                                <article className="rounded-2xl border border-white/20 bg-gradient-to-br from-sky-400/30 to-sky-600/20 p-4 backdrop-blur">
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-sky-100">
-                                        Guest trust
-                                    </p>
-                                    <p className="mt-2 text-2xl font-black text-white">{avgRating}</p>
-                                    <p className="text-xs text-sky-100/90">average review score</p>
-                                </article>
-                            </div>
                         </div>
-                    </div>
-
-                    <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                        {highlights.map((item) => (
-                            <div
-                                key={item.label}
-                                className="rounded-2xl border border-white/20 bg-gradient-to-b from-white/25 to-white/5 p-4 text-center backdrop-blur-sm"
-                            >
-                                <p className="text-2xl font-black text-white">{item.value}</p>
-                                <p className="text-sm text-slate-200">{item.label}</p>
-                            </div>
-                        ))}
                     </div>
                 </div>
             </section>
