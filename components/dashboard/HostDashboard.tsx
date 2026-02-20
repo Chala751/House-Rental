@@ -4,6 +4,7 @@ import ProfileAvatar from "@/components/layout/ProfileAvatar";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Review from "@/models/Review";
+import Booking from "@/models/Booking";
 import { Users, House, DollarSign, Star } from "lucide-react";
 
 type HostUser = {
@@ -79,13 +80,26 @@ function renderStars(rating: number) {
 export default async function HostDashboard({ user }: HostDashboardProps) {
     await connectDB();
 
-    const [rawListingsResult, hostReviews] = await Promise.all([
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const [rawListingsResult, hostReviews, hostBookings] = await Promise.all([
         Property.find({ host: user._id }).sort({ createdAt: -1 }).lean(),
         Review.find({ host: user._id })
             .populate("renter", "name")
             .populate("property", "title images")
             .sort({ createdAt: -1 })
             .select("rating comment createdAt renter property")
+            .lean(),
+        Booking.find({
+            host: user._id,
+            checkOut: { $gte: today },
+            status: { $in: ["pending", "confirmed"] },
+        })
+            .populate("renter", "name email profileImage")
+            .populate("property", "title location images")
+            .sort({ checkIn: 1 })
+            .select("checkIn checkOut nights totalPrice status renter property")
             .lean(),
     ]);
 
@@ -141,6 +155,12 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
               );
 
     const avgPriceFormatted = new Intl.NumberFormat("en-US").format(avgPrice);
+    const upcomingStays = hostBookings.filter(
+        (booking) =>
+            new Date(booking.checkOut) >= today &&
+            (booking.status === "pending" || booking.status === "confirmed")
+    );
+    const upcomingCount = upcomingStays.length;
 
     return (
         <div className="h-full overflow-y-auto bg-gradient-to-b from-slate-50 via-white to-orange-50/40">
@@ -179,7 +199,7 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                     </div>
                 </section>
 
-                <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
                     <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                         <div className="inline-flex rounded-xl bg-slate-900 p-2 text-white">
                             <House size={16} />
@@ -221,6 +241,126 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                             Active
                         </p>
                     </article>
+                    <article className="rounded-2xl border border-sky-200 bg-sky-50 p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-sky-700">
+                            Upcoming stays
+                        </p>
+                        <p className="mt-2 text-3xl font-black text-sky-700">
+                            {upcomingCount}
+                        </p>
+                    </article>
+                </section>
+
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                    <h2 className="text-xl font-black text-slate-900">Upcoming guests</h2>
+                    <p className="mt-1 text-sm text-slate-600">
+                        Guests with pending or confirmed stays in your properties.
+                    </p>
+
+                    <div className="mt-4 space-y-3">
+                        {upcomingStays.length === 0 && (
+                            <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm text-slate-600">
+                                No upcoming guest stays right now.
+                            </div>
+                        )}
+
+                        {upcomingStays.slice(0, 8).map((booking) => {
+                            const renter = booking.renter as {
+                                name?: string;
+                                email?: string;
+                                profileImage?: string;
+                            } | null;
+                            const property = booking.property as {
+                                title?: string;
+                                location?: string;
+                                images?: string[];
+                            } | null;
+                            const propertyImage = normalizeImageUrl(
+                                Array.isArray(property?.images)
+                                    ? String(property.images[0] || "")
+                                    : null
+                            );
+
+                            return (
+                                <article
+                                    key={String(booking._id)}
+                                    className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                                >
+                                    <div className="flex flex-wrap items-start justify-between gap-3">
+                                        <div className="flex min-w-0 flex-1 items-center gap-3">
+                                            {propertyImage ? (
+                                                <img
+                                                    src={propertyImage}
+                                                    alt={String(property?.title || "Property")}
+                                                    className="h-12 w-12 rounded-lg object-cover"
+                                                />
+                                            ) : (
+                                                <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                            )}
+                                            <div className="min-w-0">
+                                                <p className="line-clamp-1 text-sm font-bold text-slate-900">
+                                                    {String(property?.title || "Property")}
+                                                </p>
+                                                <p className="line-clamp-1 text-xs text-slate-600">
+                                                    {String(property?.location || "Location not available")}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <span
+                                            className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                                                booking.status === "confirmed"
+                                                    ? "bg-emerald-100 text-emerald-700"
+                                                    : "bg-amber-100 text-amber-700"
+                                            }`}
+                                        >
+                                            {String(booking.status)}
+                                        </span>
+                                    </div>
+
+                                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                                        <ProfileAvatar
+                                            name={String(renter?.name || "Guest")}
+                                            imageUrl={renter?.profileImage}
+                                            size="sm"
+                                            ringClassName="ring-1 ring-slate-200"
+                                        />
+                                        <p className="text-sm font-semibold text-slate-800">
+                                            {String(renter?.name || "Guest")}
+                                        </p>
+                                        <p className="text-xs text-slate-500">
+                                            {String(renter?.email || "")}
+                                        </p>
+                                    </div>
+
+                                    <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-700">
+                                        <span className="rounded-full bg-white px-2.5 py-1">
+                                            {new Intl.DateTimeFormat("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            }).format(new Date(booking.checkIn))}
+                                            {" - "}
+                                            {new Intl.DateTimeFormat("en-US", {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric",
+                                            }).format(new Date(booking.checkOut))}
+                                        </span>
+                                        <span className="rounded-full bg-white px-2.5 py-1">
+                                            {Number(booking.nights || 0)} nights
+                                        </span>
+                                        <span className="rounded-full bg-white px-2.5 py-1">
+                                            $
+                                            {new Intl.NumberFormat("en-US").format(
+                                                Number(booking.totalPrice || 0)
+                                            )}
+                                        </span>
+                                    </div>
+                                </article>
+                            );
+                        })}
+                    </div>
                 </section>
 
                 <section className="grid gap-6 lg:grid-cols-3">
