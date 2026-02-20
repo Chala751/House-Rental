@@ -85,6 +85,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
         const property = booking.property as {
             title?: string;
             location?: string;
+            images?: string[];
         } | null;
         const existing = reviewsByBooking.get(String(booking._id));
 
@@ -92,6 +93,9 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
             bookingId: String(booking._id),
             propertyTitle: String(property?.title || "Property"),
             propertyLocation: String(property?.location || "Location not available"),
+            propertyImage: Array.isArray((property as { images?: string[] } | null)?.images)
+                ? String((property as { images?: string[] } | null)?.images?.[0] || "")
+                : "",
             checkOut: new Date(booking.checkOut).toISOString(),
             rating: existing?.rating,
             comment: existing?.comment,

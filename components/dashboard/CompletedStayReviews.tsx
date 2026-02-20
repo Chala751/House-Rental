@@ -2,11 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Star } from "lucide-react";
 
 type CompletedStay = {
     bookingId: string;
     propertyTitle: string;
     propertyLocation: string;
+    propertyImage?: string | null;
     checkOut: string;
     rating?: number;
     comment?: string;
@@ -23,6 +25,25 @@ function formatDate(value: string) {
         day: "numeric",
         year: "numeric",
     }).format(new Date(value));
+}
+
+function renderStars(rating: number) {
+    const safe = Math.max(1, Math.min(5, Math.round(rating)));
+    return (
+        <span className="inline-flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, index) => (
+                <Star
+                    key={`star-${safe}-${index}`}
+                    size={14}
+                    className={
+                        index < safe
+                            ? "fill-amber-400 text-amber-500"
+                            : "text-slate-300"
+                    }
+                />
+            ))}
+        </span>
+    );
 }
 
 export default function CompletedStayReviews({ stays }: CompletedStayReviewsProps) {
@@ -155,14 +176,25 @@ export default function CompletedStayReviews({ stays }: CompletedStayReviewsProp
                             className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
                         >
                             <div className="flex flex-wrap items-start justify-between gap-2">
-                                <div>
-                                    <h3 className="text-sm font-bold text-slate-900">
-                                        {item.propertyTitle}
-                                    </h3>
-                                    <p className="text-xs text-slate-600">{item.propertyLocation}</p>
-                                    <p className="mt-1 text-xs text-slate-500">
-                                        Completed on {formatDate(item.checkOut)}
-                                    </p>
+                                <div className="flex min-w-0 items-start gap-3">
+                                    {item.propertyImage ? (
+                                        <img
+                                            src={item.propertyImage}
+                                            alt={item.propertyTitle}
+                                            className="h-12 w-12 rounded-xl object-cover"
+                                        />
+                                    ) : (
+                                        <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                    )}
+                                    <div className="min-w-0">
+                                        <h3 className="text-sm font-bold text-slate-900">
+                                            {item.propertyTitle}
+                                        </h3>
+                                        <p className="text-xs text-slate-600">{item.propertyLocation}</p>
+                                        <p className="mt-1 text-xs text-slate-500">
+                                            Completed on {formatDate(item.checkOut)}
+                                        </p>
+                                    </div>
                                 </div>
                                 {isDone && (
                                     <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
@@ -173,9 +205,10 @@ export default function CompletedStayReviews({ stays }: CompletedStayReviewsProp
 
                             {isDone ? (
                                 <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm">
-                                    <p className="font-semibold text-emerald-800">
-                                        Rating: {item.rating}/5
-                                    </p>
+                                    <div className="flex items-center gap-2 font-semibold text-emerald-800">
+                                        <span>Rating:</span>
+                                        {renderStars(Number(item.rating || 0))}
+                                    </div>
                                     <p className="mt-1 text-emerald-700">{item.comment}</p>
                                     <p className="mt-1 text-xs text-emerald-700/90">
                                         Submitted on {formatDate(String(item.reviewedAt))}
@@ -197,11 +230,11 @@ export default function CompletedStayReviews({ stays }: CompletedStayReviewsProp
                                                 }
                                                 className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
                                             >
-                                                <option value={5}>5 - Excellent</option>
-                                                <option value={4}>4 - Very good</option>
-                                                <option value={3}>3 - Good</option>
-                                                <option value={2}>2 - Fair</option>
-                                                <option value={1}>1 - Poor</option>
+                                                <option value={5}>5 stars - Excellent</option>
+                                                <option value={4}>4 stars - Very good</option>
+                                                <option value={3}>3 stars - Good</option>
+                                                <option value={2}>2 stars - Fair</option>
+                                                <option value={1}>1 star - Poor</option>
                                             </select>
                                         </div>
 

@@ -2,7 +2,7 @@ import CreatePropertyForm from "@/components/properties/CreatePropertyForm";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Review from "@/models/Review";
-import { BedDouble, Bath, Users, MapPin, House, DollarSign } from "lucide-react";
+import { BedDouble, Bath, Users, MapPin, House, DollarSign, Star } from "lucide-react";
 
 type HostUser = {
     _id: string;
@@ -54,18 +54,39 @@ function normalizeImageUrl(value: string | null) {
     return clean;
 }
 
+function renderStars(rating: number) {
+    const safe = Math.max(1, Math.min(5, Math.round(rating)));
+    return (
+        <span className="inline-flex items-center gap-0.5 align-middle">
+            {Array.from({ length: 5 }).map((_, index) => (
+                <Star
+                    key={`host-star-${safe}-${index}`}
+                    size={14}
+                    className={
+                        index < safe
+                            ? "fill-amber-400 text-amber-500"
+                            : "text-slate-300"
+                    }
+                />
+            ))}
+        </span>
+    );
+}
+
 export default async function HostDashboard({ user }: HostDashboardProps) {
     await connectDB();
 
-    const [rawListings, hostReviews] = await Promise.all([
-        Property.find({ host: user._id }).sort({ createdAt: -1 }).lean() as Promise<RawListing[]>,
+    const [rawListingsResult, hostReviews] = await Promise.all([
+        Property.find({ host: user._id }).sort({ createdAt: -1 }).lean(),
         Review.find({ host: user._id })
             .populate("renter", "name")
-            .populate("property", "title")
+            .populate("property", "title images")
             .sort({ createdAt: -1 })
             .select("rating comment createdAt renter property")
             .lean(),
     ]);
+
+    const rawListings = rawListingsResult as RawListing[];
 
     const listings: Listing[] = rawListings.map((item) => {
         const firstImage =
@@ -188,8 +209,17 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                         </p>
                         <div className="mt-4 space-y-2">
                             <p className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-700">
-                                Average rating:{" "}
-                                <strong>{totalReviews === 0 ? "-" : `${avgHostRating}/5`}</strong>
+                                <span>Average rating: </span>
+                                <strong className="inline-flex items-center gap-1">
+                                    {totalReviews === 0
+                                        ? "-"
+                                        : (
+                                            <>
+                                                {renderStars(avgHostRating)}
+                                                <span>({avgHostRating}/5)</span>
+                                            </>
+                                        )}
+                                </strong>
                             </p>
                             <p className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-700">
                                 Total reviews: <strong>{totalReviews}</strong>
@@ -210,18 +240,34 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                             )}
                             {hostReviews.slice(0, 5).map((review) => {
                                 const renter = review.renter as { name?: string } | null;
-                                const property = review.property as { title?: string } | null;
+                                const property = review.property as { title?: string; images?: string[] } | null;
+                                const propertyImage = Array.isArray(property?.images)
+                                    ? normalizeImageUrl(String(property.images[0] || ""))
+                                    : null;
                                 return (
                                     <div
                                         key={String(review._id)}
                                         className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
                                     >
                                         <div className="flex flex-wrap items-center justify-between gap-2">
-                                            <p className="text-sm font-bold text-slate-900">
-                                                {String(property?.title || "Property")}
-                                            </p>
+                                            <div className="flex min-w-0 items-center gap-2">
+                                                {propertyImage ? (
+                                                    <img
+                                                        src={propertyImage}
+                                                        alt={String(property?.title || "Property")}
+                                                        className="h-10 w-10 rounded-lg object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                                )}
+                                                <p className="truncate text-sm font-bold text-slate-900">
+                                                    {String(property?.title || "Property")}
+                                                </p>
+                                            </div>
                                             <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                                                {Number(review.rating || 0)}/5
+                                                <span className="inline-flex items-center gap-1">
+                                                    {renderStars(Number(review.rating || 0))}
+                                                </span>
                                             </span>
                                         </div>
                                         <p className="mt-1 text-xs text-slate-500">
