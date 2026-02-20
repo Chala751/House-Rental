@@ -6,6 +6,7 @@ import { verifyToken } from "@/lib/auth";
 import User from "@/models/User";
 import Property from "@/models/Property";
 import Booking from "@/models/Booking";
+import Review from "@/models/Review";
 
 export async function DELETE(
     _req: Request,
@@ -52,6 +53,13 @@ export async function DELETE(
         const propertyIds = hostedProperties.map((item) => item._id);
 
         await Booking.deleteMany({
+            $or: [
+                { renter: targetUser._id },
+                { host: targetUser._id },
+                ...(propertyIds.length > 0 ? [{ property: { $in: propertyIds } }] : []),
+            ],
+        });
+        await Review.deleteMany({
             $or: [
                 { renter: targetUser._id },
                 { host: targetUser._id },

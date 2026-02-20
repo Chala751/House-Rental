@@ -1,6 +1,7 @@
 import CreatePropertyForm from "@/components/properties/CreatePropertyForm";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
+import Review from "@/models/Review";
 import { BedDouble, Bath, Users, MapPin, House, DollarSign } from "lucide-react";
 
 type HostUser = {
@@ -56,9 +57,15 @@ function normalizeImageUrl(value: string | null) {
 export default async function HostDashboard({ user }: HostDashboardProps) {
     await connectDB();
 
-    const rawListings = (await Property.find({ host: user._id })
-        .sort({ createdAt: -1 })
-        .lean()) as RawListing[];
+    const [rawListings, hostReviews] = await Promise.all([
+        Property.find({ host: user._id }).sort({ createdAt: -1 }).lean() as Promise<RawListing[]>,
+        Review.find({ host: user._id })
+            .populate("renter", "name")
+            .populate("property", "title")
+            .sort({ createdAt: -1 })
+            .select("rating comment createdAt renter property")
+            .lean(),
+    ]);
 
     const listings: Listing[] = rawListings.map((item) => {
         const firstImage =
@@ -97,6 +104,17 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
         (sum, item) => sum + Number(item.maxGuests || 0),
         0
     );
+
+    const totalReviews = hostReviews.length;
+    const avgHostRating =
+        totalReviews === 0
+            ? 0
+            : Number(
+                  (
+                      hostReviews.reduce((sum, item) => sum + Number(item.rating || 0), 0) /
+                      totalReviews
+                  ).toFixed(2)
+              );
 
     const avgPriceFormatted = new Intl.NumberFormat("en-US").format(avgPrice);
 
@@ -159,6 +177,63 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                         <p className="mt-2 text-3xl font-black text-emerald-600">
                             Active
                         </p>
+                    </article>
+                </section>
+
+                <section className="grid gap-6 lg:grid-cols-3">
+                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-1">
+                        <h2 className="text-xl font-black text-slate-900">Host profile rating</h2>
+                        <p className="mt-1 text-sm text-slate-600">
+                            Based on reviews from completed stays.
+                        </p>
+                        <div className="mt-4 space-y-2">
+                            <p className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-700">
+                                Average rating:{" "}
+                                <strong>{totalReviews === 0 ? "-" : `${avgHostRating}/5`}</strong>
+                            </p>
+                            <p className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-700">
+                                Total reviews: <strong>{totalReviews}</strong>
+                            </p>
+                        </div>
+                    </article>
+
+                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-2">
+                        <h2 className="text-xl font-black text-slate-900">Recent renter reviews</h2>
+                        <p className="mt-1 text-sm text-slate-600">
+                            Latest comments from guests about your stays.
+                        </p>
+                        <div className="mt-4 space-y-3">
+                            {hostReviews.length === 0 && (
+                                <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm text-slate-600">
+                                    No reviews yet. Completed stays will start showing feedback here.
+                                </p>
+                            )}
+                            {hostReviews.slice(0, 5).map((review) => {
+                                const renter = review.renter as { name?: string } | null;
+                                const property = review.property as { title?: string } | null;
+                                return (
+                                    <div
+                                        key={String(review._id)}
+                                        className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                                    >
+                                        <div className="flex flex-wrap items-center justify-between gap-2">
+                                            <p className="text-sm font-bold text-slate-900">
+                                                {String(property?.title || "Property")}
+                                            </p>
+                                            <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">
+                                                {Number(review.rating || 0)}/5
+                                            </span>
+                                        </div>
+                                        <p className="mt-1 text-xs text-slate-500">
+                                            By {String(renter?.name || "Guest")}
+                                        </p>
+                                        <p className="mt-2 text-sm text-slate-700">
+                                            {String(review.comment || "")}
+                                        </p>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </article>
                 </section>
 
