@@ -1,6 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Star } from "lucide-react";
 import PropertyGrid from "@/components/properties/PropertyGrid";
+import ProfileAvatar from "@/components/layout/ProfileAvatar";
+import heroImage from "./luxury-realty-hero.jpg";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Booking from "@/models/Booking";
@@ -74,7 +77,7 @@ export default async function HomePage() {
             },
         ]),
         Review.find()
-            .populate("renter", "name")
+            .populate("renter", "name profileImage")
             .populate("host", "name")
             .populate("property", "title")
             .select("rating comment createdAt renter host property")
@@ -101,7 +104,7 @@ export default async function HomePage() {
     ];
 
     const testimonials = testimonialsRaw.map((item) => {
-        const renter = item.renter as { name?: string } | null;
+        const renter = item.renter as { name?: string; profileImage?: string } | null;
         const host = item.host as { name?: string } | null;
         const property = item.property as { title?: string } | null;
 
@@ -110,6 +113,7 @@ export default async function HomePage() {
             rating: Number(item.rating || 0),
             comment: String(item.comment || ""),
             renterName: String(renter?.name || "Guest"),
+            renterImage: String(renter?.profileImage || ""),
             hostName: String(host?.name || "Host"),
             propertyTitle: String(property?.title || "Property"),
         };
@@ -118,20 +122,22 @@ export default async function HomePage() {
     return (
         <main className="min-h-screen bg-gradient-to-b from-slate-100 via-white to-orange-50/40 text-slate-900">
             <section className="relative overflow-hidden bg-slate-950">
-                <div className="absolute -left-20 top-8 h-72 w-72 rounded-full bg-orange-500/35 blur-3xl" />
-                <div className="absolute -right-24 top-24 h-72 w-72 rounded-full bg-sky-500/35 blur-3xl" />
+                <div className="absolute -left-24 top-0 h-80 w-80 rounded-full bg-orange-500/35 blur-3xl" />
+                <div className="absolute -right-20 top-10 h-72 w-72 rounded-full bg-sky-500/30 blur-3xl" />
+                <div className="absolute bottom-0 left-1/3 h-52 w-52 rounded-full bg-emerald-400/20 blur-3xl" />
                 <div className="mx-auto max-w-7xl px-6 pb-20 pt-10 md:px-10 md:pb-24">
-                    <div className="grid items-center gap-10 md:grid-cols-2">
+                    <div className="grid items-center gap-10 lg:grid-cols-2">
                         <div>
-                            <p className="mb-5 inline-flex rounded-full border border-orange-300/40 bg-orange-300/10 px-4 py-1 text-sm font-semibold text-orange-200">
-                                Modern stays for modern travel
+                            <p className="mb-5 inline-flex rounded-full border border-orange-300/40 bg-orange-300/15 px-4 py-1 text-sm font-semibold text-orange-200">
+                                Find your next favorite stay
                             </p>
                             <h1 className="text-4xl font-black leading-tight text-white md:text-6xl">
-                                Beautiful homes. Smooth booking. Zero stress.
+                                Stay anywhere
+                                <span className="block text-orange-300">with confidence.</span>
                             </h1>
                             <p className="mt-5 max-w-xl text-base text-slate-300 md:text-lg">
-                                Explore quality rentals with photos, essential amenities, and
-                                host details you can trust before you reserve.
+                                Trusted hosts, clear pricing, and real guest reviews help you
+                                book better homes faster.
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <Link
@@ -147,26 +153,74 @@ export default async function HomePage() {
                                     Become a Host
                                 </Link>
                             </div>
+                            <div className="mt-6 flex flex-wrap gap-2">
+                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                                    Verified hosts
+                                </span>
+                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                                    Instant booking
+                                </span>
+                                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+                                    Secure payments
+                                </span>
+                            </div>
                         </div>
 
-                        <div className="rounded-3xl border border-white/20 bg-white/10 p-6 shadow-2xl backdrop-blur">
-                            <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-slate-200">
-                                Why guests choose us
-                            </p>
-                            <div className="space-y-3">
-                                {valuePoints.map((point) => (
-                                    <div
-                                        key={point.title}
-                                        className="rounded-xl border border-white/20 bg-gradient-to-r from-white/15 to-white/5 px-4 py-3"
-                                    >
-                                        <p className="text-sm font-bold text-white">
-                                            {point.title}
+                        <div className="space-y-4">
+                            <article className="overflow-hidden rounded-3xl border border-white/20 bg-white/10 shadow-2xl backdrop-blur">
+                                <div className="relative">
+                                    <Image
+                                        src={heroImage}
+                                        alt="Luxury house rental visual"
+                                        priority
+                                        className="h-64 w-full object-cover md:h-72"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
+                                    <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
+                                        <p className="rounded-full bg-black/55 px-3 py-1 text-xs font-semibold text-white">
+                                            Premium house rentals
                                         </p>
-                                        <p className="mt-1 text-sm text-slate-200">
-                                            {point.description}
+                                        <p className="rounded-full border border-white/30 bg-white/15 px-3 py-1 text-xs font-semibold text-white">
+                                            Trusted by guests
                                         </p>
                                     </div>
-                                ))}
+                                </div>
+                            </article>
+
+                            <article className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur">
+                                <p className="text-sm font-semibold uppercase tracking-wide text-slate-200">
+                                    Why guests choose us
+                                </p>
+                                <div className="mt-3 space-y-3">
+                                    {valuePoints.map((point) => (
+                                        <div
+                                            key={point.title}
+                                            className="rounded-xl border border-white/15 bg-white/10 px-4 py-3"
+                                        >
+                                            <p className="text-sm font-bold text-white">{point.title}</p>
+                                            <p className="mt-1 text-sm text-slate-200">
+                                                {point.description}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </article>
+
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <article className="rounded-2xl border border-white/20 bg-gradient-to-br from-orange-400/35 to-orange-600/20 p-4 backdrop-blur">
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-orange-100">
+                                        Fast booking
+                                    </p>
+                                    <p className="mt-2 text-2xl font-black text-white">2 min</p>
+                                    <p className="text-xs text-orange-100/90">avg checkout time</p>
+                                </article>
+                                <article className="rounded-2xl border border-white/20 bg-gradient-to-br from-sky-400/30 to-sky-600/20 p-4 backdrop-blur">
+                                    <p className="text-xs font-semibold uppercase tracking-wide text-sky-100">
+                                        Guest trust
+                                    </p>
+                                    <p className="mt-2 text-2xl font-black text-white">{avgRating}</p>
+                                    <p className="text-xs text-sky-100/90">average review score</p>
+                                </article>
                             </div>
                         </div>
                     </div>
@@ -175,7 +229,7 @@ export default async function HomePage() {
                         {highlights.map((item) => (
                             <div
                                 key={item.label}
-                                className="rounded-2xl border border-white/20 bg-gradient-to-b from-white/20 to-white/5 p-4 text-center backdrop-blur-sm"
+                                className="rounded-2xl border border-white/20 bg-gradient-to-b from-white/25 to-white/5 p-4 text-center backdrop-blur-sm"
                             >
                                 <p className="text-2xl font-black text-white">{item.value}</p>
                                 <p className="text-sm text-slate-200">{item.label}</p>
@@ -241,10 +295,22 @@ export default async function HomePage() {
                                     "{item.comment}"
                                 </p>
                                 <div className="relative mt-4 border-t border-slate-200 pt-3">
-                                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                                        Renter
-                                    </p>
-                                    <p className="text-sm font-bold text-slate-900">{item.renterName}</p>
+                                    <div className="flex items-center gap-2">
+                                        <ProfileAvatar
+                                            name={item.renterName}
+                                            imageUrl={item.renterImage}
+                                            size="sm"
+                                            ringClassName="ring-1 ring-slate-200"
+                                        />
+                                        <div>
+                                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                                Renter
+                                            </p>
+                                            <p className="text-sm font-bold text-slate-900">
+                                                {item.renterName}
+                                            </p>
+                                        </div>
+                                    </div>
                                     <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
                                         Host
                                     </p>
@@ -286,6 +352,51 @@ export default async function HomePage() {
                     </div>
                 </div>
             </section>
+
+            <footer className="border-t border-slate-200 bg-slate-950">
+                <div className="mx-auto max-w-7xl px-6 py-12 md:px-10">
+                    <div className="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <p className="inline-flex rounded-full border border-orange-300/30 bg-orange-300/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-orange-200">
+                                Contact
+                            </p>
+                            <h3 className="mt-3 text-2xl font-black text-white">
+                                Need help with bookings or hosting?
+                            </h3>
+                            <p className="mt-2 max-w-md text-sm text-slate-300">
+                                Reach out and we will assist you with account setup,
+                                reservations, and listing support.
+                            </p>
+                        </div>
+
+                        <div className="grid gap-3 sm:grid-cols-2">
+                            <a
+                                href="mailto:ctemesgen85@gmail.com"
+                                className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur transition hover:border-orange-300/50"
+                            >
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+                                    Email
+                                </p>
+                                <p className="mt-2 break-all text-sm font-bold text-white">
+                                    ctemesgen85@gmail.com
+                                </p>
+                            </a>
+
+                            <a
+                                href="tel:+251960416208"
+                                className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur transition hover:border-sky-300/50"
+                            >
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+                                    Contact
+                                </p>
+                                <p className="mt-2 text-sm font-bold text-white">
+                                    +251 960 416 208
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </main>
     );
 }
