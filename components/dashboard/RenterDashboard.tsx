@@ -3,6 +3,8 @@ import { connectDB } from "@/lib/mongodb";
 import Booking from "@/models/Booking";
 import Property from "@/models/Property";
 import LogoutButton from "@/components/layout/LogoutButton";
+import Review from "@/models/Review";
+import CompletedStayReviews from "@/components/dashboard/CompletedStayReviews";
 
 type RenterUser = {
     _id: string;
@@ -60,6 +62,42 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
     const completedStays = bookings.filter(
         (booking) => new Date(booking.checkOut) < today && booking.status === "confirmed"
     );
+
+    const completedBookingIds = completedStays.map((booking) => booking._id);
+    const existingReviews = await Review.find({
+        booking: { $in: completedBookingIds },
+    })
+        .select("booking rating comment createdAt")
+        .lean();
+
+    const reviewsByBooking = new Map(
+        existingReviews.map((item) => [
+            String(item.booking),
+            {
+                rating: Number(item.rating || 0),
+                comment: String(item.comment || ""),
+                reviewedAt: String(item.createdAt || ""),
+            },
+        ])
+    );
+
+    const completedStayReviewItems = completedStays.map((booking) => {
+        const property = booking.property as {
+            title?: string;
+            location?: string;
+        } | null;
+        const existing = reviewsByBooking.get(String(booking._id));
+
+        return {
+            bookingId: String(booking._id),
+            propertyTitle: String(property?.title || "Property"),
+            propertyLocation: String(property?.location || "Location not available"),
+            checkOut: new Date(booking.checkOut).toISOString(),
+            rating: existing?.rating,
+            comment: existing?.comment,
+            reviewedAt: existing?.reviewedAt,
+        };
+    });
     const totalSpent = bookings.reduce(
         (sum, booking) => sum + Number(booking.totalPrice || 0),
         0
@@ -299,6 +337,8 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                         </div>
                     </div>
                 </section>
+
+                <CompletedStayReviews stays={completedStayReviewItems} />
 
                 <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                     <h2 className="text-xl font-black text-slate-900">Booking history</h2>
