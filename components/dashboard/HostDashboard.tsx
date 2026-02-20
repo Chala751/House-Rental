@@ -1,8 +1,9 @@
 import CreatePropertyForm from "@/components/properties/CreatePropertyForm";
+import HostListingsManager from "@/components/dashboard/HostListingsManager";
 import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Review from "@/models/Review";
-import { BedDouble, Bath, Users, MapPin, House, DollarSign, Star } from "lucide-react";
+import { Users, House, DollarSign, Star } from "lucide-react";
 
 type HostUser = {
     _id: string;
@@ -296,80 +297,7 @@ export default async function HostDashboard({ user }: HostDashboardProps) {
                             </p>
                         </div>
 
-                        <div className="grid gap-4 md:grid-cols-2">
-                            {listingCount === 0 && (
-                                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-sm text-slate-600 md:col-span-2">
-                                    No listings yet. Create your first property using the form.
-                                </div>
-                            )}
-
-                            {listings.map((listing) => (
-                                <article
-                                    key={listing.id}
-                                    className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                                >
-                                    {listing.imageUrl ? (
-                                        <div className="relative">
-                                            <img
-                                                src={listing.imageUrl}
-                                                alt={listing.title}
-                                                className="h-44 w-full object-cover"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/45 to-transparent" />
-                                            <p className="absolute bottom-3 right-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-slate-900">
-                                                ${listing.pricePerNight}/night
-                                            </p>
-                                        </div>
-                                    ) : (
-                                        <div className="relative flex h-44 w-full items-center justify-center bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100">
-                                            <p className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-slate-700">
-                                                No image uploaded
-                                            </p>
-                                        </div>
-                                    )}
-
-                                    <div className="p-5">
-                                        <div className="flex flex-wrap items-start justify-between gap-3">
-                                            <div>
-                                                <h3 className="text-lg font-bold text-slate-900">
-                                                    {listing.title}
-                                                </h3>
-                                                <p className="mt-1 inline-flex items-center gap-1 text-sm text-slate-600">
-                                                    <MapPin size={14} />
-                                                    {listing.location}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <p className="mt-3 line-clamp-2 text-sm text-slate-600">
-                                            {listing.description}
-                                        </p>
-
-                                        <div>
-                                            <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-700">
-                                                {typeof listing.bedrooms === "number" && (
-                                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
-                                                        <BedDouble size={13} />
-                                                        {listing.bedrooms} bd
-                                                    </span>
-                                                )}
-                                                {typeof listing.bathrooms === "number" && (
-                                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
-                                                        <Bath size={13} />
-                                                        {listing.bathrooms} ba
-                                                    </span>
-                                                )}
-                                                {typeof listing.maxGuests === "number" && (
-                                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
-                                                        <Users size={13} />
-                                                        {listing.maxGuests} guests
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </article>
-                            ))}
-                        </div>
+                        <HostListingsManager listings={listings} />
                     </div>
                 </section>
             </div>
