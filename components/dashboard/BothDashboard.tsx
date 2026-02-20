@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import Property from "@/models/Property";
 import Booking from "@/models/Booking";
+import AdminUsersManager from "./AdminUsersManager";
 
 type AdminUser = {
     _id: string;
@@ -109,54 +110,7 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
 
                 <section className="grid gap-6 lg:grid-cols-3">
                     <div className="space-y-4 lg:col-span-2">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">All users</h2>
-                            <p className="mt-1 text-sm text-slate-600">
-                                Latest accounts across all roles.
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <div className="overflow-x-auto">
-                                <table className="min-w-full text-left text-sm">
-                                    <thead className="text-xs uppercase tracking-wide text-slate-500">
-                                        <tr className="border-b border-slate-200">
-                                            <th className="px-2 py-3">Name</th>
-                                            <th className="px-2 py-3">Email</th>
-                                            <th className="px-2 py-3">Role</th>
-                                            <th className="px-2 py-3">Created</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {users.length === 0 && (
-                                            <tr>
-                                                <td colSpan={4} className="px-2 py-5 text-sm text-slate-600">
-                                                    No users found.
-                                                </td>
-                                            </tr>
-                                        )}
-                                        {users.slice(0, 12).map((item) => (
-                                            <tr key={String(item._id)} className="border-b border-slate-100">
-                                                <td className="px-2 py-3 font-medium text-slate-800">
-                                                    {String(item.name || "Unknown")}
-                                                </td>
-                                                <td className="px-2 py-3 text-slate-600">
-                                                    {String(item.email || "-")}
-                                                </td>
-                                                <td className="px-2 py-3">
-                                                    <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
-                                                        {String(item.role || "renter")}
-                                                    </span>
-                                                </td>
-                                                <td className="px-2 py-3 text-slate-600">
-                                                    {formatDate(String(item.createdAt))}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <AdminUsersManager currentUserId={String(user._id)} />
                     </div>
 
                     <div className="space-y-4">
