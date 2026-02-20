@@ -152,7 +152,7 @@ export default function SignupPage() {
                                         Host
                                     </option>
                                     <option value="both" className="text-slate-900">
-                                        Both
+                                        Admin
                                     </option>
                                 </select>
                             </div>
