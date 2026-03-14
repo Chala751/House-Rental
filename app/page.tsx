@@ -8,6 +8,7 @@ import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import Booking from "@/models/Booking";
 import Review from "@/models/Review";
+import "@/models/User";
 
 const valuePoints = [
     {
