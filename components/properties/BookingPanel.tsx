@@ -42,6 +42,14 @@ function addDaysISODate(dateStr: string, days: number) {
     return `${yyyy}-${mm}-${dd}`;
 }
 
+function formatMoney(value: number) {
+    return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+    }).format(Number(value) || 0);
+}
+
 export default function BookingPanel({
     propertyId,
     nightlyRate,
@@ -70,8 +78,6 @@ export default function BookingPanel({
     }, [checkIn, checkOut]);
 
     const totalPrice = nights > 0 ? nights * nightlyRate : 0;
-    const formattedNightlyRate = new Intl.NumberFormat("en-US").format(nightlyRate);
-    const formattedTotal = new Intl.NumberFormat("en-US").format(totalPrice);
 
     useEffect(() => {
         if (didAutoFocusRef.current) {
@@ -134,54 +140,47 @@ export default function BookingPanel({
         <aside
             id="book-panel"
             ref={panelRef}
-            className="h-fit scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:sticky lg:top-6"
+            className="rounded-3xl border border-line bg-surface shadow-card h-fit scroll-mt-24 p-6 shadow-soft lg:sticky lg:top-24"
         >
-            <p className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
-                Reserve this stay
-            </p>
-            <p className="mt-3 text-4xl font-black text-slate-900">${formattedNightlyRate}</p>
-            <p className="mt-1 text-sm text-slate-500">per night</p>
-            <p className="mt-4 text-sm text-slate-600">Hosted by {hostName}</p>
+            <div className="flex items-baseline gap-1.5">
+                <span className="font-display font-semibold leading-[1.08] tracking-tight text-[2.1rem] text-ink">
+                    {formatMoney(nightlyRate)}
+                </span>
+                <span className="text-sm text-ink-muted">/ night</span>
+            </div>
+            <p className="mt-1.5 text-sm text-ink-soft">Hosted by {hostName}</p>
 
             {!isSignedIn ? (
-                <div className="mt-6 rounded-xl border border-orange-200 bg-orange-50 p-4">
-                    <p className="text-sm font-semibold text-orange-700">
-                        To book this property, you must sign in.
+                <div className="mt-6">
+                    <p className="rounded-xl border px-3.5 py-2.5 text-sm border-accent-line bg-accent-soft text-accent">
+                        Sign in to reserve this home.
                     </p>
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3.5 flex gap-2.5">
                         <Link
                             href={`/auth/login?next=${encodeURIComponent(
                                 `/properties/${propertyId}#book-panel`
                             )}`}
-                            className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 text-[0.8125rem] bg-accent text-white shadow-card hover:bg-accent-hover flex-1"
                         >
                             Sign in
                         </Link>
-                        <Link
-                            href="/auth/signup"
-                            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-500"
-                        >
+                        <Link href="/auth/signup" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 text-[0.8125rem] border-line-strong bg-surface text-ink hover:border-ink-soft flex-1">
                             Create account
                         </Link>
                     </div>
                 </div>
             ) : !canBook ? (
-                <div className="mt-6 rounded-xl border border-amber-200 bg-amber-50 p-4">
-                    <p className="text-sm font-semibold text-amber-700">
-                        Booking is available only for renter accounts.
-                    </p>
-                    <p className="mt-1 text-xs text-amber-700/90">
-                        Use a renter account or update your role to renter/both.
+                <div className="mt-6">
+                    <p className="rounded-xl border px-3.5 py-2.5 text-sm border-accent-line bg-accent-soft text-accent">
+                        Booking is available on renter accounts only. Switch your role to
+                        renter to reserve this home.
                     </p>
                 </div>
             ) : (
                 <div className="mt-6 space-y-4">
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                         <div>
-                            <label
-                                htmlFor="check-in"
-                                className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500"
-                            >
+                            <label htmlFor="check-in" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
                                 Check in
                             </label>
                             <input
@@ -196,14 +195,11 @@ export default function BookingPanel({
                                         setCheckOut(addDaysISODate(nextCheckIn, 1));
                                     }
                                 }}
-                                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
                             />
                         </div>
                         <div>
-                            <label
-                                htmlFor="check-out"
-                                className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500"
-                            >
+                            <label htmlFor="check-out" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
                                 Check out
                             </label>
                             <input
@@ -212,49 +208,42 @@ export default function BookingPanel({
                                 min={addDaysISODate(checkIn, 1)}
                                 value={checkOut}
                                 onChange={(e) => setCheckOut(e.target.value)}
-                                className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
                             />
                         </div>
                     </div>
 
-                    <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-                        <div className="flex items-center justify-between">
-                            <p>
-                                ${formattedNightlyRate} x {nights > 0 ? nights : 0} night(s)
-                            </p>
-                            <p>${formattedTotal}</p>
+                    <div className="rounded-xl border border-line bg-sunken p-4 text-sm">
+                        <div className="flex items-center justify-between text-ink-soft">
+                            <span>
+                                {formatMoney(nightlyRate)} × {nights > 0 ? nights : 0} night
+                                {nights === 1 ? "" : "s"}
+                            </span>
+                            <span>{formatMoney(totalPrice)}</span>
                         </div>
-                        <div className="mt-2 border-t border-slate-200 pt-2">
-                            <div className="flex items-center justify-between font-semibold text-slate-900">
-                                <p>Total</p>
-                                <p>${formattedTotal}</p>
-                            </div>
+                        <div className="mt-3 flex items-center justify-between border-t border-line pt-3 font-semibold text-ink">
+                            <span>Total</span>
+                            <span>{formatMoney(totalPrice)}</span>
                         </div>
                         {nights <= 0 && (
-                            <p className="mt-2 text-xs font-medium text-red-600">
+                            <p className="mt-2.5 text-xs text-critical">
                                 Select valid dates to continue.
                             </p>
                         )}
                     </div>
 
-                    {error && (
-                        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-                            {error}
-                        </p>
-                    )}
+                    {error && <p className="rounded-xl border px-3.5 py-2.5 text-sm border-critical/30 bg-critical-soft text-critical">{error}</p>}
+
                     {success && (
-                        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-3 text-sm text-emerald-700">
+                        <div className="rounded-xl border px-3.5 py-2.5 text-sm border-positive/30 bg-positive-soft text-positive">
                             <p>{success}</p>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                <Link
-                                    href="/dashboard"
-                                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-500"
-                                >
+                            <div className="mt-3 flex flex-wrap items-center gap-2">
+                                <Link href="/dashboard" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 text-[0.8125rem] bg-ink text-white hover:bg-ink/90">
                                     Go to dashboard
                                 </Link>
                                 {bookedId && (
-                                    <span className="rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-emerald-700">
-                                        Booking ID: {bookedId}
+                                    <span className="text-xs text-ink-muted">
+                                        Ref {bookedId.slice(-8)}
                                     </span>
                                 )}
                             </div>
@@ -265,10 +254,14 @@ export default function BookingPanel({
                         type="button"
                         onClick={handleBook}
                         disabled={submitting || nights <= 0}
-                        className="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-5 py-2.5 text-sm bg-accent text-white shadow-card hover:bg-accent-hover w-full"
                     >
-                        {submitting ? "Booking..." : "Book this property"}
+                        {submitting ? "Booking…" : "Reserve this home"}
                     </button>
+
+                    <p className="text-center text-xs text-ink-muted">
+                        You won&apos;t be charged yet.
+                    </p>
                 </div>
             )}
         </aside>
