@@ -95,18 +95,18 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
     }
 
     return (
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-3xl border border-line bg-surface p-5 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                    <h2 className="text-xl font-black text-slate-900">User management</h2>
-                    <p className="mt-1 text-sm text-slate-600">
+                    <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">User management</h2>
+                    <p className="mt-1 text-sm text-ink-soft">
                         Search accounts and delete users you want to remove.
                     </p>
                 </div>
                 <button
                     type="button"
                     onClick={fetchUsers}
-                    className="rounded-full border border-slate-300 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-slate-700 transition hover:border-slate-500"
+                    className="rounded-full border border-line-strong px-4 py-2 text-xs font-semibold uppercase tracking-wide text-ink-soft transition hover:border-ink-soft"
                 >
                     Refresh
                 </button>
@@ -117,25 +117,25 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search by name, email, or role"
-                    className="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-2.5 text-sm outline-none transition focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                    className="w-full rounded-xl border border-line-strong bg-sunken px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                 />
             </div>
 
             {error && (
-                <p className="mt-3 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                <p className="mt-3 rounded-xl border border-critical bg-critical-soft px-3 py-2 text-sm text-critical">
                     {error}
                 </p>
             )}
 
             <div className="mt-4 space-y-2">
                 {loading && (
-                    <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-600">
+                    <p className="rounded-xl border border-dashed border-line-strong bg-sunken px-4 py-6 text-sm text-ink-soft">
                         Loading users...
                     </p>
                 )}
 
                 {!loading && filteredUsers.length === 0 && (
-                    <p className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-6 text-sm text-slate-600">
+                    <p className="rounded-xl border border-dashed border-line-strong bg-sunken px-4 py-6 text-sm text-ink-soft">
                         No users found.
                     </p>
                 )}
@@ -149,27 +149,27 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
                         return (
                             <div
                                 key={id}
-                                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-gradient-to-r from-white to-slate-50 px-4 py-3"
+                                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-gradient-to-r from-white to-canvas px-4 py-3"
                             >
                                 <div className="flex min-w-[260px] flex-1 items-center gap-3">
                                     <ProfileAvatar
                                         name={item.name}
                                         imageUrl={item.profileImage}
                                         size="sm"
-                                        ringClassName="ring-2 ring-slate-200"
+                                        ringClassName="ring-2 ring-line"
                                     />
                                     <div className="min-w-0">
-                                        <p className="truncate text-sm font-bold text-slate-900">
+                                        <p className="truncate text-sm font-bold text-ink">
                                             {String(item.name || "Unknown user")}
                                         </p>
-                                        <p className="truncate text-xs text-slate-600">
+                                        <p className="truncate text-xs text-ink-soft">
                                             {String(item.email || "-")}
                                         </p>
                                         <div className="mt-1 flex flex-wrap gap-2 text-xs">
-                                            <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                                            <span className="rounded-full bg-sunken px-2 py-0.5 font-semibold text-ink-soft">
                                                 {String(item.role || "renter")}
                                             </span>
-                                            <span className="rounded-full bg-cyan-100 px-2 py-0.5 font-semibold text-cyan-700">
+                                            <span className="rounded-full bg-accent-soft px-2 py-0.5 font-semibold text-accent">
                                                 Joined {formatDate(item.createdAt)}
                                             </span>
                                         </div>
@@ -180,7 +180,7 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
                                     type="button"
                                     disabled={isCurrentUser || isDeleting}
                                     onClick={() => setConfirmUserId(id)}
-                                    className="rounded-full bg-rose-600 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:bg-slate-300"
+                                    className="rounded-full bg-critical px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-critical disabled:cursor-not-allowed disabled:bg-sunken"
                                     title={isCurrentUser ? "You cannot delete your own account here." : "Delete user"}
                                 >
                                     {isCurrentUser ? "Current account" : isDeleting ? "Deleting..." : "Delete user"}
@@ -191,13 +191,13 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
             </div>
 
             {confirmUserId && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 px-4">
-                    <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
-                        <h3 className="text-lg font-black text-slate-900">Delete user?</h3>
-                        <p className="mt-2 text-sm text-slate-600">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/45 px-4">
+                    <div className="w-full max-w-md rounded-2xl border border-line bg-surface p-5 shadow-xl">
+                        <h3 className="text-lg font-semibold text-ink">Delete user?</h3>
+                        <p className="mt-2 text-sm text-ink-soft">
                             Are you sure you want to delete this user account?
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-ink-muted">
                             This action cannot be undone and will remove related data.
                         </p>
 
@@ -205,7 +205,7 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
                             <button
                                 type="button"
                                 onClick={() => setConfirmUserId(null)}
-                                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-500"
+                                className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm font-semibold text-ink-soft transition hover:border-ink-soft"
                             >
                                 Cancel
                             </button>
@@ -213,7 +213,7 @@ export default function AdminUsersManager({ currentUserId }: AdminUsersManagerPr
                                 type="button"
                                 onClick={handleDeleteConfirmed}
                                 disabled={Boolean(pendingDeleteId)}
-                                className="rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="rounded-lg bg-critical px-3 py-2 text-sm font-semibold text-white transition hover:bg-critical disabled:cursor-not-allowed disabled:opacity-60"
                             >
                                 {pendingDeleteId ? "Deleting..." : "Confirm delete"}
                             </button>
