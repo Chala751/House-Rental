@@ -73,15 +73,15 @@ export default function CreatePropertyForm() {
     }
 
     return (
-        <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-            <h2 className="text-xl font-black text-slate-900">Create property</h2>
-            <p className="mt-1 text-sm text-slate-600">
+        <section className="rounded-3xl border border-line bg-surface p-5 shadow-sm md:p-6">
+            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Create property</h2>
+            <p className="mt-1 text-sm text-ink-soft">
                 Add listing details and publish instantly.
             </p>
 
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
                 <div>
-                    <label htmlFor="title" className="mb-1 block text-sm font-semibold text-slate-700">
+                    <label htmlFor="title" className="mb-1 block text-sm font-semibold text-ink-soft">
                         Title
                     </label>
                     <input
@@ -89,7 +89,7 @@ export default function CreatePropertyForm() {
                         placeholder="Modern city apartment"
                         value={form.title}
                         onChange={(e) => setForm({ ...form, title: e.target.value })}
-                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                         required
                     />
                 </div>
@@ -97,7 +97,7 @@ export default function CreatePropertyForm() {
                 <div>
                     <label
                         htmlFor="description"
-                        className="mb-1 block text-sm font-semibold text-slate-700"
+                        className="mb-1 block text-sm font-semibold text-ink-soft"
                     >
                         Description
                     </label>
@@ -106,14 +106,14 @@ export default function CreatePropertyForm() {
                         placeholder="Describe your place, neighborhood, and what guests can expect."
                         value={form.description}
                         onChange={(e) => setForm({ ...form, description: e.target.value })}
-                        className="min-h-24 w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        className="min-h-24 w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                         required
                     />
                 </div>
 
                 <div className="grid gap-3 sm:grid-cols-2">
                     <div>
-                        <label htmlFor="location" className="mb-1 block text-sm font-semibold text-slate-700">
+                        <label htmlFor="location" className="mb-1 block text-sm font-semibold text-ink-soft">
                             Location
                         </label>
                         <input
@@ -121,7 +121,7 @@ export default function CreatePropertyForm() {
                             placeholder="Austin, TX"
                             value={form.location}
                             onChange={(e) => setForm({ ...form, location: e.target.value })}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                            className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                             required
                         />
                     </div>
@@ -129,7 +129,7 @@ export default function CreatePropertyForm() {
                     <div>
                         <label
                             htmlFor="pricePerNight"
-                            className="mb-1 block text-sm font-semibold text-slate-700"
+                            className="mb-1 block text-sm font-semibold text-ink-soft"
                         >
                             Price per night ($)
                         </label>
@@ -140,7 +140,7 @@ export default function CreatePropertyForm() {
                             min={1}
                             value={form.pricePerNight}
                             onChange={(e) => setForm({ ...form, pricePerNight: e.target.value })}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                            className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                             required
                         />
                     </div>
@@ -148,7 +148,7 @@ export default function CreatePropertyForm() {
 
                 <div className="grid gap-3 sm:grid-cols-3">
                     <div>
-                        <label htmlFor="bedrooms" className="mb-1 block text-sm font-semibold text-slate-700">
+                        <label htmlFor="bedrooms" className="mb-1 block text-sm font-semibold text-ink-soft">
                             Bedrooms
                         </label>
                         <input
@@ -158,11 +158,11 @@ export default function CreatePropertyForm() {
                             placeholder="2"
                             value={form.bedrooms}
                             onChange={(e) => setForm({ ...form, bedrooms: e.target.value })}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                            className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                         />
                     </div>
                     <div>
-                        <label htmlFor="bathrooms" className="mb-1 block text-sm font-semibold text-slate-700">
+                        <label htmlFor="bathrooms" className="mb-1 block text-sm font-semibold text-ink-soft">
                             Bathrooms
                         </label>
                         <input
@@ -172,11 +172,11 @@ export default function CreatePropertyForm() {
                             placeholder="1"
                             value={form.bathrooms}
                             onChange={(e) => setForm({ ...form, bathrooms: e.target.value })}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                            className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                         />
                     </div>
                     <div>
-                        <label htmlFor="maxGuests" className="mb-1 block text-sm font-semibold text-slate-700">
+                        <label htmlFor="maxGuests" className="mb-1 block text-sm font-semibold text-ink-soft">
                             Max guests
                         </label>
                         <input
@@ -186,13 +186,13 @@ export default function CreatePropertyForm() {
                             placeholder="4"
                             value={form.maxGuests}
                             onChange={(e) => setForm({ ...form, maxGuests: e.target.value })}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                            className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label htmlFor="amenities" className="mb-1 block text-sm font-semibold text-slate-700">
+                    <label htmlFor="amenities" className="mb-1 block text-sm font-semibold text-ink-soft">
                         Amenities (comma separated)
                     </label>
                     <input
@@ -200,12 +200,12 @@ export default function CreatePropertyForm() {
                         placeholder="WiFi, Pool, Parking"
                         value={form.amenities}
                         onChange={(e) => setForm({ ...form, amenities: e.target.value })}
-                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="images" className="mb-1 block text-sm font-semibold text-slate-700">
+                    <label htmlFor="images" className="mb-1 block text-sm font-semibold text-ink-soft">
                         Upload images
                     </label>
                     <input
@@ -216,17 +216,17 @@ export default function CreatePropertyForm() {
                         onChange={(e) =>
                             setSelectedImages(e.target.files ? Array.from(e.target.files) : [])
                         }
-                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-semibold hover:file:bg-slate-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition file:mr-4 file:rounded-lg file:border-0 file:bg-sunken file:px-3 file:py-2 file:text-sm file:font-semibold hover:file:bg-line focus:border-accent focus:ring-2 focus:ring-accent-soft"
                     />
                     {selectedImages.length > 0 && (
-                        <p className="mt-1 text-xs text-slate-600">
+                        <p className="mt-1 text-xs text-ink-soft">
                             {selectedImages.length} image(s) selected
                         </p>
                     )}
                 </div>
 
                 <div>
-                    <label htmlFor="imageUrls" className="mb-1 block text-sm font-semibold text-slate-700">
+                    <label htmlFor="imageUrls" className="mb-1 block text-sm font-semibold text-ink-soft">
                         Extra image URLs (optional, comma separated)
                     </label>
                     <input
@@ -234,18 +234,18 @@ export default function CreatePropertyForm() {
                         placeholder="https://..., https://..."
                         value={form.imageUrls}
                         onChange={(e) => setForm({ ...form, imageUrls: e.target.value })}
-                        className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
+                        className="w-full rounded-xl border border-line-strong px-4 py-2.5 text-sm outline-none transition focus:border-accent focus:ring-2 focus:ring-accent-soft"
                     />
                 </div>
 
                 {error && (
-                    <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+                    <p className="rounded-lg border border-critical bg-critical-soft px-3 py-2 text-sm text-critical">
                         {error}
                     </p>
                 )}
 
                 {success && (
-                    <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+                    <p className="rounded-lg border border-positive bg-positive-soft px-3 py-2 text-sm text-positive">
                         {success}
                     </p>
                 )}
@@ -253,7 +253,7 @@ export default function CreatePropertyForm() {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full rounded-xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+                    className="w-full rounded-xl bg-ink py-3 text-sm font-semibold text-white transition hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60"
                 >
                     {isSubmitting ? "Creating property..." : "Publish property"}
                 </button>
