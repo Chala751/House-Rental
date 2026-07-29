@@ -76,27 +76,27 @@ export default function HeaderProfileUploader() {
 
     return (
         <div className="relative flex items-center gap-2">
-            <ProfileAvatar
-                name={user.name}
-                imageUrl={user.profileImage}
-                size="sm"
-                ringClassName="ring-2 ring-slate-200"
-            />
-            <div className="hidden sm:block">
-                <p className="max-w-[120px] truncate text-xs font-semibold text-slate-700">
-                    {user.name}
-                </p>
-                <p className="text-[10px] uppercase tracking-wide text-slate-500">
-                    {user.role || "member"}
-                </p>
-            </div>
             <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={isUploading}
-                className="rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 transition hover:border-slate-500 disabled:cursor-not-allowed disabled:opacity-60"
+                className="group flex items-center gap-2.5 rounded-full border border-line bg-surface py-1 pl-1 pr-3 transition-colors hover:border-line-strong disabled:cursor-not-allowed disabled:opacity-60"
+                title="Change profile photo"
             >
-                {isUploading ? "Uploading..." : "Upload"}
+                <ProfileAvatar
+                    name={user.name}
+                    imageUrl={user.profileImage}
+                    size="sm"
+                    ringClassName="ring-1 ring-line"
+                />
+                <span className="hidden text-left sm:block">
+                    <span className="block max-w-[120px] truncate text-[0.8125rem] font-medium text-ink">
+                        {isUploading ? "Uploading…" : user.name}
+                    </span>
+                    <span className="block text-[10px] uppercase tracking-[0.1em] text-ink-muted">
+                        {user.role || "member"}
+                    </span>
+                </span>
             </button>
             <input
                 ref={fileRef}
@@ -106,7 +106,7 @@ export default function HeaderProfileUploader() {
                 className="hidden"
             />
             {error && (
-                <p className="absolute -bottom-5 right-0 text-[10px] font-medium text-rose-600">
+                <p className="absolute -bottom-5 right-0 text-[10px] font-medium text-critical">
                     {error}
                 </p>
             )}
