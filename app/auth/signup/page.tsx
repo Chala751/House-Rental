@@ -42,145 +42,111 @@ export default function SignupPage() {
     }
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-amber-50 px-4 py-12 text-slate-900">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(251,146,60,0.30),_transparent_45%),radial-gradient(circle_at_bottom,_rgba(14,165,233,0.20),_transparent_40%)]" />
-            <div className="relative mx-auto max-w-5xl">
-                <Link
-                    href="/"
-                    className="mb-8 inline-block text-sm font-semibold text-slate-700 transition hover:text-slate-900"
-                >
-                    Back to home
-                </Link>
-
-                <div className="grid items-stretch gap-6 md:grid-cols-2">
-                    <section className="rounded-3xl border border-orange-100 bg-white/75 p-8 backdrop-blur">
-                        <p className="text-sm font-semibold uppercase tracking-widest text-orange-700">
-                            Join StayScape
-                        </p>
-                        <h1 className="mt-3 text-4xl font-black leading-tight">
-                            Create your rental account.
-                        </h1>
-                        <p className="mt-4 text-slate-700">
-                            Book homes, list your property, or do both from one dashboard.
-                        </p>
-                        <div className="mt-8 space-y-3 text-sm text-slate-700">
-                            <p className="rounded-xl border border-orange-100 bg-orange-50 px-3 py-2">
-                                Find trusted rentals with clear pricing
-                            </p>
-                            <p className="rounded-xl border border-orange-100 bg-orange-50 px-3 py-2">
-                                Manage listings and reservations easily
-                            </p>
-                            <p className="rounded-xl border border-orange-100 bg-orange-50 px-3 py-2">
-                                Switch roles anytime from your account
-                            </p>
-                        </div>
-                    </section>
-
-                    <section className="rounded-3xl bg-slate-900 p-8 text-white shadow-2xl">
-                        <h2 className="text-2xl font-black">Sign up</h2>
-                        <p className="mt-2 text-sm text-slate-300">
-                            Start with your details below.
-                        </p>
-
-                        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                            <div>
-                                <label htmlFor="name" className="mb-1 block text-sm font-semibold">
-                                    Name
-                                </label>
-                                <input
-                                    id="name"
-                                    placeholder="Your full name"
-                                    value={form.name}
-                                    onChange={(e) =>
-                                        setForm({ ...form, name: e.target.value })
-                                    }
-                                    className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-slate-300 outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-400/20"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="email" className="mb-1 block text-sm font-semibold">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={form.email}
-                                    onChange={(e) =>
-                                        setForm({ ...form, email: e.target.value })
-                                    }
-                                    className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-slate-300 outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-400/20"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="mb-1 block text-sm font-semibold">
-                                    Password
-                                </label>
-                                <input
-                                    id="password"
-                                    placeholder="Create a secure password"
-                                    type="password"
-                                    value={form.password}
-                                    onChange={(e) =>
-                                        setForm({ ...form, password: e.target.value })
-                                    }
-                                    className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-slate-300 outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-400/20"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="role" className="mb-1 block text-sm font-semibold">
-                                    Account type
-                                </label>
-                                <select
-                                    id="role"
-                                    value={form.role}
-                                    onChange={(e) =>
-                                        setForm({ ...form, role: e.target.value })
-                                    }
-                                    className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white outline-none transition focus:border-orange-300 focus:ring-2 focus:ring-orange-400/20"
-                                >
-                                    <option value="renter" className="text-slate-900">
-                                        Renter
-                                    </option>
-                                    <option value="host" className="text-slate-900">
-                                        Host
-                                    </option>
-                                    <option value="both" className="text-slate-900">
-                                        Admin
-                                    </option>
-                                </select>
-                            </div>
-
-                            {error && (
-                                <p className="rounded-lg border border-red-300/30 bg-red-200/10 px-3 py-2 text-sm text-red-200">
-                                    {error}
-                                </p>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full rounded-xl bg-orange-500 py-3 text-sm font-semibold text-white transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-60"
-                            >
-                                {isSubmitting ? "Creating account..." : "Create account"}
-                            </button>
-                        </form>
-
-                        <p className="mt-5 text-sm text-slate-300">
-                            Already have an account?{" "}
-                            <Link href="/auth/login" className="font-semibold text-orange-300 hover:underline">
-                                Sign in
-                            </Link>
-                        </p>
-                    </section>
+        <div className="mx-auto w-full max-w-6xl px-5 md:px-8 flex justify-center py-16 md:py-24">
+            <div className="w-full max-w-[26rem]">
+                <div className="text-center">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Join StayScape</p>
+                    <h1 className="font-display font-semibold leading-[1.08] tracking-tight text-[clamp(1.5rem,1.15rem+1.1vw,1.95rem)] mt-3 text-ink">
+                        Create your account
+                    </h1>
+                    <p className="mt-3 text-[0.95rem] text-ink-soft">
+                        Book homes, list your property, or do both from one dashboard.
+                    </p>
                 </div>
+
+                <div className="rounded-3xl border border-line bg-surface shadow-card mt-8 p-7 shadow-soft">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div>
+                            <label htmlFor="name" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Full name
+                            </label>
+                            <input
+                                id="name"
+                                autoComplete="name"
+                                placeholder="Your full name"
+                                value={form.name}
+                                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                autoComplete="email"
+                                placeholder="you@example.com"
+                                value={form.email}
+                                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                autoComplete="new-password"
+                                placeholder="Create a secure password"
+                                value={form.password}
+                                onChange={(e) =>
+                                    setForm({ ...form, password: e.target.value })
+                                }
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="role" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Account type
+                            </label>
+                            <select
+                                id="role"
+                                value={form.role}
+                                onChange={(e) => setForm({ ...form, role: e.target.value })}
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                            >
+                                <option value="renter">Renter</option>
+                                <option value="host">Host</option>
+                                <option value="both">Admin</option>
+                            </select>
+                        </div>
+
+                        {error && (
+                            <p className="rounded-xl border px-3.5 py-2.5 text-sm border-critical/30 bg-critical-soft text-critical" role="alert">
+                                {error}
+                            </p>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-5 py-2.5 text-sm bg-accent text-white shadow-card hover:bg-accent-hover w-full"
+                        >
+                            {isSubmitting ? "Creating account…" : "Create account"}
+                        </button>
+                    </form>
+                </div>
+
+                <p className="mt-6 text-center text-sm text-ink-soft">
+                    Already have an account?{" "}
+                    <Link
+                        href="/auth/login"
+                        className="font-medium text-accent underline-offset-4 hover:underline"
+                    >
+                        Sign in
+                    </Link>
+                </p>
             </div>
-        </main>
+        </div>
     );
 }
