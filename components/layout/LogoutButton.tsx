@@ -15,9 +15,9 @@ export default function LogoutButton() {
         <button
             type="button"
             onClick={handleLogout}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-red-300 hover:text-red-600"
-            aria-label="Logout"
-            title="Logout"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-4 py-2 text-[0.8125rem] border-line-strong bg-surface text-ink hover:border-ink-soft hover:border-critical! hover:text-critical!"
+            aria-label="Log out"
+            title="Log out"
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
