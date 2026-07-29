@@ -64,7 +64,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
 
     if (items.length === 0) {
         return (
-            <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-sm text-slate-600">
+            <div className="rounded-2xl border border-dashed border-line-strong bg-surface p-6 text-sm text-ink-soft">
                 No listings yet. Create your first property using the form.
             </div>
         );
@@ -73,7 +73,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
     return (
         <>
             {error && (
-                <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                <div className="rounded-xl border border-critical bg-critical-soft px-4 py-3 text-sm text-critical">
                     {error}
                 </div>
             )}
@@ -82,7 +82,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                 {items.map((listing) => (
                     <article
                         key={listing.id}
-                        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                        className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
                     >
                         {listing.imageUrl ? (
                             <div className="relative">
@@ -91,14 +91,14 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                                     alt={listing.title}
                                     className="h-44 w-full object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/45 to-transparent" />
-                                <p className="absolute bottom-3 right-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-slate-900">
+                                <div className="absolute inset-0 bg-gradient-to-t from-ink/45 to-transparent" />
+                                <p className="absolute bottom-3 right-3 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-ink">
                                     ${listing.pricePerNight}/night
                                 </p>
                             </div>
                         ) : (
-                            <div className="relative flex h-44 w-full items-center justify-center bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100">
-                                <p className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-slate-700">
+                            <div className="relative flex h-44 w-full items-center justify-center bg-sunken">
+                                <p className="rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-ink-soft">
                                     No image uploaded
                                 </p>
                             </div>
@@ -107,30 +107,30 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                         <div className="p-5">
                             <div className="flex flex-wrap items-start justify-between gap-3">
                                 <div>
-                                    <h3 className="text-lg font-bold text-slate-900">{listing.title}</h3>
-                                    <p className="mt-1 inline-flex items-center gap-1 text-sm text-slate-600">
+                                    <h3 className="text-lg font-bold text-ink">{listing.title}</h3>
+                                    <p className="mt-1 inline-flex items-center gap-1 text-sm text-ink-soft">
                                         <MapPin size={14} />
                                         {listing.location}
                                     </p>
                                 </div>
                             </div>
-                            <p className="mt-3 line-clamp-2 text-sm text-slate-600">{listing.description}</p>
+                            <p className="mt-3 line-clamp-2 text-sm text-ink-soft">{listing.description}</p>
 
-                            <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-700">
+                            <div className="mt-4 flex flex-wrap gap-2 text-xs text-ink-soft">
                                 {typeof listing.bedrooms === "number" && (
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-sunken px-2.5 py-1">
                                         <BedDouble size={13} />
                                         {listing.bedrooms} bd
                                     </span>
                                 )}
                                 {typeof listing.bathrooms === "number" && (
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-sunken px-2.5 py-1">
                                         <Bath size={13} />
                                         {listing.bathrooms} ba
                                     </span>
                                 )}
                                 {typeof listing.maxGuests === "number" && (
-                                    <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-sunken px-2.5 py-1">
                                         <Users size={13} />
                                         {listing.maxGuests} guests
                                     </span>
@@ -142,7 +142,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                                     type="button"
                                     onClick={() => setConfirmListingId(listing.id)}
                                     disabled={pendingDeleteId === listing.id}
-                                    className="inline-flex items-center gap-1 rounded-lg bg-rose-600 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
+                                    className="inline-flex items-center gap-1 rounded-lg bg-critical px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-critical disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                     <Trash2 size={14} />
                                     {pendingDeleteId === listing.id ? "Deleting..." : "Delete property"}
@@ -154,13 +154,13 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
             </div>
 
             {confirmListing && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/45 px-4">
-                    <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-xl">
-                        <h3 className="text-lg font-black text-slate-900">Delete property?</h3>
-                        <p className="mt-2 text-sm text-slate-600">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/45 px-4">
+                    <div className="w-full max-w-md rounded-2xl border border-line bg-surface p-5 shadow-xl">
+                        <h3 className="text-lg font-semibold text-ink">Delete property?</h3>
+                        <p className="mt-2 text-sm text-ink-soft">
                             Are you sure you want to delete <strong>{confirmListing.title}</strong>?
                         </p>
-                        <p className="mt-1 text-xs text-slate-500">
+                        <p className="mt-1 text-xs text-ink-muted">
                             This action cannot be undone. Properties with bookings cannot be deleted.
                         </p>
 
@@ -168,7 +168,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                             <button
                                 type="button"
                                 onClick={() => setConfirmListingId(null)}
-                                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-500"
+                                className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-sm font-semibold text-ink-soft transition hover:border-ink-soft"
                             >
                                 Cancel
                             </button>
@@ -176,7 +176,7 @@ export default function HostListingsManager({ listings }: HostListingsManagerPro
                                 type="button"
                                 onClick={handleDeleteConfirmed}
                                 disabled={pendingDeleteId === confirmListing.id}
-                                className="rounded-lg bg-rose-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-60"
+                                className="rounded-lg bg-critical px-3 py-2 text-sm font-semibold text-white transition hover:bg-critical disabled:cursor-not-allowed disabled:opacity-60"
                             >
                                 {pendingDeleteId === confirmListing.id ? "Deleting..." : "Confirm delete"}
                             </button>
