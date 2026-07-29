@@ -6,7 +6,7 @@ type ProfileAvatarProps = {
 };
 
 const sizeClasses = {
-    sm: "h-9 w-9 text-xs",
+    sm: "h-9 w-9 text-[0.7rem]",
     md: "h-12 w-12 text-sm",
     lg: "h-16 w-16 text-lg",
 };
@@ -25,7 +25,7 @@ export default function ProfileAvatar({
     name,
     imageUrl,
     size = "md",
-    ringClassName = "ring-2 ring-white/80",
+    ringClassName = "ring-1 ring-line",
 }: ProfileAvatarProps) {
     const src = String(imageUrl || "").trim();
     const initials = getInitials(name);
@@ -35,14 +35,14 @@ export default function ProfileAvatar({
             <img
                 src={src}
                 alt={name ? `${name} profile` : "Profile"}
-                className={`${sizeClasses[size]} rounded-full object-cover ${ringClassName}`}
+                className={`${sizeClasses[size]} shrink-0 rounded-full bg-sunken object-cover ${ringClassName}`}
             />
         );
     }
 
     return (
         <div
-            className={`${sizeClasses[size]} flex items-center justify-center rounded-full bg-slate-900 font-bold text-white ${ringClassName}`}
+            className={`${sizeClasses[size]} flex shrink-0 items-center justify-center rounded-full bg-accent-soft font-semibold tracking-wide text-accent ${ringClassName}`}
             aria-label={name ? `${name} profile` : "Profile"}
         >
             {initials}
