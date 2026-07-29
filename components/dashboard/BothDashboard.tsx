@@ -70,20 +70,20 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
     const confirmedBookings = bookings.filter((item) => item.status === "confirmed").length;
 
     return (
-        <div className="h-full overflow-y-auto bg-gradient-to-b from-slate-50 via-white to-cyan-50/30">
-            <div className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 md:px-8">
-                <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl md:p-8">
-                    <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-cyan-500/30 blur-3xl" />
-                    <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div>
+            <div className="mx-auto w-full max-w-6xl px-5 md:px-8 space-y-8 py-8 md:py-10">
+                <section className="relative overflow-hidden rounded-3xl border border-line bg-ink p-6 text-white shadow-xl md:p-8">
+                    <div className="pointer-events-none absolute -right-20 -top-20 h-60 w-60 rounded-full bg-accent-soft blur-3xl" />
+                    <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-positive-soft blur-3xl" />
                     <div className="relative flex flex-wrap items-start justify-between gap-4">
                         <div>
-                            <p className="text-sm font-semibold uppercase tracking-widest text-cyan-300">
+                            <p className="text-sm font-semibold uppercase tracking-widest text-accent">
                                 Admin dashboard
                             </p>
-                            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+                            <h1 className="font-display font-semibold leading-[1.08] tracking-tight text-[clamp(2rem,1.3rem+2.2vw,2.9rem)] mt-2">
                                 Platform control center, {user.name}
                             </h1>
-                            <p className="mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
+                            <p className="mt-3 max-w-2xl text-sm text-ink-soft md:text-base">
                                 Access all users, listings, and reservations from one place.
                             </p>
                         </div>
@@ -96,7 +96,7 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                                 />
                                 <div>
                                     <p className="text-sm font-semibold text-white">{user.name}</p>
-                                    <p className="text-xs uppercase tracking-wide text-slate-200">
+                                    <p className="text-xs uppercase tracking-wide text-ink-soft">
                                         Admin account
                                     </p>
                                 </div>
@@ -106,7 +106,7 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                     <div className="relative mt-5 flex flex-wrap gap-3">
                         <Link
                             href="/dashboard"
-                            className="rounded-full bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-cyan-400"
+                            className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-hover"
                         >
                             Main dashboard
                         </Link>
@@ -120,29 +120,29 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                 </section>
 
                 <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Total users
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">{totalUsers}</p>
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">{totalUsers}</p>
                     </article>
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Host accounts
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">{totalHosts}</p>
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">{totalHosts}</p>
                     </article>
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Renter accounts
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">{totalRenters}</p>
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">{totalRenters}</p>
                     </article>
-                    <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                    <article className="rounded-2xl border border-positive bg-positive-soft p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-positive">
                             Confirmed bookings
                         </p>
-                        <p className="mt-2 text-3xl font-black text-emerald-700">{confirmedBookings}</p>
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-positive">{confirmedBookings}</p>
                     </article>
                 </section>
 
@@ -152,20 +152,20 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                     </div>
 
                     <div className="space-y-4">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">Platform totals</h2>
+                        <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Platform totals</h2>
                             <div className="mt-4 space-y-2 text-sm">
-                                <p className="rounded-lg bg-slate-100 px-3 py-2 text-slate-700">
+                                <p className="rounded-lg bg-sunken px-3 py-2 text-ink-soft">
                                     Listings: <strong>{totalProperties}</strong>
                                 </p>
-                                <p className="rounded-lg bg-slate-100 px-3 py-2 text-slate-700">
+                                <p className="rounded-lg bg-sunken px-3 py-2 text-ink-soft">
                                     Bookings: <strong>{totalBookings}</strong>
                                 </p>
                             </div>
                         </div>
 
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">Recent bookings</h2>
+                        <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Recent bookings</h2>
                             <div className="mt-4 space-y-3">
                                 {bookings.slice(0, 6).map((item) => {
                                     const property = item.property as {
@@ -186,7 +186,7 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                                     return (
                                         <div
                                             key={String(item._id)}
-                                            className="rounded-xl border border-slate-200 p-3"
+                                            className="rounded-xl border border-line p-3"
                                         >
                                             <div className="flex items-start gap-3">
                                                 {propertyImage ? (
@@ -196,10 +196,10 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                                                         className="h-12 w-12 rounded-lg object-cover"
                                                     />
                                                 ) : (
-                                                    <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                                    <div className="h-12 w-12 rounded-lg bg-sunken" />
                                                 )}
                                                 <div className="min-w-0 flex-1">
-                                                    <p className="line-clamp-1 text-sm font-bold text-slate-900">
+                                                    <p className="line-clamp-1 text-sm font-bold text-ink">
                                                         {String(property?.title || "Property")}
                                                     </p>
                                                     <div className="mt-1 flex items-center gap-2">
@@ -207,25 +207,25 @@ export default async function BothDashboard({ user }: BothDashboardProps) {
                                                             name={String(renter?.name || "Unknown")}
                                                             imageUrl={renter?.profileImage}
                                                             size="sm"
-                                                            ringClassName="ring-1 ring-slate-200"
+                                                            ringClassName="ring-1 ring-line"
                                                         />
-                                                        <p className="line-clamp-1 text-xs text-slate-600">
+                                                        <p className="line-clamp-1 text-xs text-ink-soft">
                                                             Renter: {String(renter?.name || "Unknown")}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <p className="mt-1 text-xs text-slate-600">
+                                            <p className="mt-1 text-xs text-ink-soft">
                                                 {formatDate(String(item.checkIn))} - {formatDate(String(item.checkOut))}
                                             </p>
-                                            <p className="mt-1 text-xs font-semibold text-slate-700">
+                                            <p className="mt-1 text-xs font-semibold text-ink-soft">
                                                 ${new Intl.NumberFormat("en-US").format(Number(item.totalPrice || 0))}
                                             </p>
                                         </div>
                                     );
                                 })}
                                 {bookings.length === 0 && (
-                                    <p className="text-sm text-slate-600">No bookings found.</p>
+                                    <p className="text-sm text-ink-soft">No bookings found.</p>
                                 )}
                             </div>
                         </div>
