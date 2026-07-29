@@ -112,20 +112,20 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
     const totalSpentFormatted = new Intl.NumberFormat("en-US").format(totalSpent);
 
     return (
-        <div className="h-full overflow-y-auto bg-gradient-to-b from-slate-50 via-white to-orange-50/30">
-            <div className="mx-auto w-full max-w-7xl space-y-8 px-4 py-6 md:px-8">
-                <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 p-6 text-white shadow-xl md:p-8">
-                    <div className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-orange-500/30 blur-3xl" />
-                    <div className="pointer-events-none absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-sky-500/30 blur-3xl" />
+        <div>
+            <div className="mx-auto w-full max-w-6xl px-5 md:px-8 space-y-8 py-8 md:py-10">
+                <section className="relative overflow-hidden rounded-3xl border border-line bg-ink p-6 text-white shadow-xl md:p-8">
+                    <div className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-accent-soft blur-3xl" />
+                    <div className="pointer-events-none absolute -right-16 bottom-0 h-56 w-56 rounded-full bg-sunken blur-3xl" />
                     <div className="relative flex flex-wrap items-start justify-between gap-4">
                         <div>
-                            <p className="text-sm font-semibold uppercase tracking-widest text-orange-300">
+                            <p className="text-sm font-semibold uppercase tracking-widest text-accent">
                                 Renter dashboard
                             </p>
-                            <h1 className="mt-2 text-3xl font-black md:text-4xl">
+                            <h1 className="font-display font-semibold leading-[1.08] tracking-tight text-[clamp(2rem,1.3rem+2.2vw,2.9rem)] mt-2">
                                 Welcome back, {user.name}
                             </h1>
-                            <p className="mt-3 max-w-2xl text-sm text-slate-200 md:text-base">
+                            <p className="mt-3 max-w-2xl text-sm text-ink-soft md:text-base">
                                 Track upcoming stays, manage your reservations, and discover
                                 newly listed homes.
                             </p>
@@ -139,7 +139,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                 />
                                 <div>
                                     <p className="text-sm font-semibold text-white">{user.name}</p>
-                                    <p className="text-xs uppercase tracking-wide text-slate-200">
+                                    <p className="text-xs uppercase tracking-wide text-ink-soft">
                                         Renter account
                                     </p>
                                 </div>
@@ -149,7 +149,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                     <div className="relative mt-5 flex flex-wrap gap-3">
                         <Link
                             href="/"
-                            className="rounded-full bg-orange-500 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-400"
+                            className="rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-hover"
                         >
                             Explore properties
                         </Link>
@@ -158,33 +158,33 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                 </section>
 
                 <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Total bookings
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">{totalBookings}</p>
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">{totalBookings}</p>
                     </article>
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Upcoming stays
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">
                             {upcomingBookings.length}
                         </p>
                     </article>
-                    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
                             Completed stays
                         </p>
-                        <p className="mt-2 text-3xl font-black text-slate-900">
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-ink">
                             {completedStays.length}
                         </p>
                     </article>
-                    <article className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                    <article className="rounded-2xl border border-positive bg-positive-soft p-5 shadow-sm">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-positive">
                             Total spent
                         </p>
-                        <p className="mt-2 text-3xl font-black text-emerald-700">
+                        <p className="font-display font-semibold leading-[1.08] tracking-tight mt-2 text-[1.9rem] text-positive">
                             ${totalSpentFormatted}
                         </p>
                     </article>
@@ -192,16 +192,16 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
 
                 <section className="grid gap-6 lg:grid-cols-3">
                     <div className="space-y-4 lg:col-span-2">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">Upcoming stays</h2>
-                            <p className="mt-1 text-sm text-slate-600">
+                        <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Upcoming stays</h2>
+                            <p className="mt-1 text-sm text-ink-soft">
                                 Confirmed and pending reservations from today onward.
                             </p>
                         </div>
 
                         <div className="space-y-3">
                             {upcomingBookings.length === 0 && (
-                                <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-sm text-slate-600">
+                                <div className="rounded-2xl border border-dashed border-line-strong bg-surface p-6 text-sm text-ink-soft">
                                     No upcoming stays yet. Browse listings and book your next trip.
                                 </div>
                             )}
@@ -222,7 +222,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                 return (
                                     <article
                                         key={String(booking._id)}
-                                        className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                                        className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm"
                                     >
                                         <div className="grid md:grid-cols-[220px_1fr]">
                                             {image ? (
@@ -232,15 +232,15 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                                     className="h-44 w-full object-cover md:h-full"
                                                 />
                                             ) : (
-                                                <div className="h-44 w-full bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100 md:h-full" />
+                                                <div className="h-44 w-full bg-sunken md:h-full" />
                                             )}
                                             <div className="p-5">
                                                 <div className="flex flex-wrap items-start justify-between gap-3">
                                                     <div>
-                                                        <h3 className="text-lg font-bold text-slate-900">
+                                                        <h3 className="text-lg font-bold text-ink">
                                                             {String(property?.title || "Property")}
                                                         </h3>
-                                                        <p className="mt-1 text-sm text-slate-600">
+                                                        <p className="mt-1 text-sm text-ink-soft">
                                                             {String(
                                                                 property?.location ||
                                                                     "Location not available"
@@ -250,29 +250,29 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                                     <span
                                                         className={`rounded-full px-3 py-1 text-xs font-semibold ${
                                                             booking.status === "confirmed"
-                                                                ? "bg-emerald-100 text-emerald-700"
-                                                                : "bg-amber-100 text-amber-700"
+                                                                ? "bg-positive-soft text-positive"
+                                                                : "bg-accent-soft text-accent"
                                                         }`}
                                                     >
                                                         {booking.status}
                                                     </span>
                                                 </div>
-                                                <div className="mt-4 flex flex-wrap gap-2 text-sm text-slate-700">
-                                                    <span className="rounded-full bg-slate-100 px-3 py-1">
+                                                <div className="mt-4 flex flex-wrap gap-2 text-sm text-ink-soft">
+                                                    <span className="rounded-full bg-sunken px-3 py-1">
                                                         {formatDate(booking.checkIn)} -{" "}
                                                         {formatDate(booking.checkOut)}
                                                     </span>
-                                                    <span className="rounded-full bg-slate-100 px-3 py-1">
+                                                    <span className="rounded-full bg-sunken px-3 py-1">
                                                         {Number(booking.nights || 0)} nights
                                                     </span>
-                                                    <span className="rounded-full bg-slate-100 px-3 py-1">
+                                                    <span className="rounded-full bg-sunken px-3 py-1">
                                                         Starts {startsIn <= 0 ? "today" : `in ${startsIn} days`}
                                                     </span>
                                                 </div>
                                                 {property?._id && (
                                                     <Link
                                                         href={`/properties/${String(property._id)}`}
-                                                        className="mt-4 inline-flex text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
+                                                        className="mt-4 inline-flex text-sm font-semibold text-ink underline-offset-4 hover:underline"
                                                     >
                                                         View property details
                                                     </Link>
@@ -286,29 +286,29 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                     </div>
 
                     <div className="space-y-4">
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">Quick actions</h2>
+                        <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Quick actions</h2>
                             <div className="mt-4 space-y-2">
                                 <Link
                                     href="/"
-                                    className="block rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-200"
+                                    className="block rounded-xl bg-sunken px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken"
                                 >
                                     Browse homes
                                 </Link>
                                 <Link
                                     href="/auth/login"
-                                    className="block rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-200"
+                                    className="block rounded-xl bg-sunken px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-sunken"
                                 >
                                     Switch account
                                 </Link>
                             </div>
                         </div>
 
-                        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                            <h2 className="text-xl font-black text-slate-900">Recently listed</h2>
+                        <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                            <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Recently listed</h2>
                             <div className="mt-4 space-y-3">
                                 {suggestions.length === 0 && (
-                                    <p className="text-sm text-slate-600">
+                                    <p className="text-sm text-ink-soft">
                                         No listings available yet.
                                     </p>
                                 )}
@@ -321,7 +321,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                     return (
                                         <div
                                             key={String(property._id)}
-                                            className="overflow-hidden rounded-xl border border-slate-200 transition hover:border-slate-300 hover:shadow-sm"
+                                            className="overflow-hidden rounded-xl border border-line transition hover:border-line-strong hover:shadow-sm"
                                         >
                                             <Link href={`/properties/${String(property._id)}`} className="block">
                                             {image ? (
@@ -331,16 +331,16 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                                     className="h-28 w-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="h-28 w-full bg-gradient-to-br from-orange-100 via-amber-50 to-sky-100" />
+                                                <div className="h-28 w-full bg-sunken" />
                                             )}
                                             <div className="p-3">
-                                                <p className="line-clamp-1 text-sm font-bold text-slate-900">
+                                                <p className="line-clamp-1 text-sm font-bold text-ink">
                                                     {String(property.title)}
                                                 </p>
-                                                <p className="mt-1 line-clamp-1 text-xs text-slate-600">
+                                                <p className="mt-1 line-clamp-1 text-xs text-ink-soft">
                                                     {String(property.location)}
                                                 </p>
-                                                <p className="mt-1 line-clamp-1 text-xs text-slate-500">
+                                                <p className="mt-1 line-clamp-1 text-xs text-ink-muted">
                                                     Host: {String(host?.name || "Unknown host")}
                                                 </p>
                                             </div>
@@ -350,7 +350,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                                     href={`/properties/${String(
                                                         property._id
                                                     )}?book=1#book-panel`}
-                                                    className="block rounded-lg bg-emerald-600 px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-emerald-500"
+                                                    className="block rounded-lg bg-positive px-3 py-2 text-center text-xs font-semibold text-white transition hover:bg-positive"
                                                 >
                                                     Book now
                                                 </Link>
@@ -365,14 +365,14 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
 
                 <CompletedStayReviews stays={completedStayReviewItems} />
 
-                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <h2 className="text-xl font-black text-slate-900">Booking history</h2>
-                    <p className="mt-1 text-sm text-slate-600">Your latest reservations.</p>
+                <section className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+                    <h2 className="font-display font-semibold leading-[1.08] tracking-tight text-[1.35rem] text-ink">Booking history</h2>
+                    <p className="mt-1 text-sm text-ink-soft">Your latest reservations.</p>
 
                     <div className="mt-4 overflow-x-auto">
                         <table className="min-w-full text-left text-sm">
-                            <thead className="text-xs uppercase tracking-wide text-slate-500">
-                                <tr className="border-b border-slate-200">
+                            <thead className="text-xs uppercase tracking-wide text-ink-muted">
+                                <tr className="border-b border-line">
                                     <th className="px-2 py-3">Property</th>
                                     <th className="px-2 py-3">Dates</th>
                                     <th className="px-2 py-3">Status</th>
@@ -384,7 +384,7 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                     <tr>
                                         <td
                                             colSpan={4}
-                                            className="px-2 py-5 text-sm text-slate-600"
+                                            className="px-2 py-5 text-sm text-ink-soft"
                                         >
                                             No bookings yet.
                                         </td>
@@ -397,21 +397,21 @@ export default async function RenterDashboard({ user }: RenterDashboardProps) {
                                     return (
                                         <tr
                                             key={String(booking._id)}
-                                            className="border-b border-slate-100"
+                                            className="border-b border-line"
                                         >
-                                            <td className="px-2 py-3 font-medium text-slate-800">
+                                            <td className="px-2 py-3 font-medium text-ink">
                                                 {String(property?.title || "Property")}
                                             </td>
-                                            <td className="px-2 py-3 text-slate-600">
+                                            <td className="px-2 py-3 text-ink-soft">
                                                 {formatDate(booking.checkIn)} -{" "}
                                                 {formatDate(booking.checkOut)}
                                             </td>
                                             <td className="px-2 py-3">
-                                                <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
+                                                <span className="rounded-full bg-sunken px-2.5 py-1 text-xs font-semibold text-ink-soft">
                                                     {booking.status}
                                                 </span>
                                             </td>
-                                            <td className="px-2 py-3 font-semibold text-slate-800">
+                                            <td className="px-2 py-3 font-semibold text-ink">
                                                 $
                                                 {new Intl.NumberFormat("en-US").format(
                                                     Number(booking.totalPrice || 0)
