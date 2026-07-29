@@ -43,101 +43,78 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-12 text-slate-100">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.35),_transparent_45%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.25),_transparent_50%)]" />
-            <div className="relative mx-auto max-w-5xl">
-                <Link
-                    href="/"
-                    className="mb-8 inline-block text-sm font-semibold text-slate-300 transition hover:text-white"
-                >
-                    Back to home
-                </Link>
-
-                <div className="grid items-stretch gap-6 md:grid-cols-2">
-                    <section className="rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
-                        <p className="text-sm font-semibold uppercase tracking-widest text-orange-300">
-                            Welcome back
-                        </p>
-                        <h1 className="mt-3 text-4xl font-black leading-tight">
-                            Sign in to manage your stays.
-                        </h1>
-                        <p className="mt-4 text-slate-300">
-                            Access your bookings, saved homes, and host messages in one place.
-                        </p>
-                        <div className="mt-8 space-y-3 text-sm text-slate-300">
-                            <p className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                                Secure session-based authentication
-                            </p>
-                            <p className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                                Fast booking and hosting workflow
-                            </p>
-                            <p className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-                                Built for mobile and desktop
-                            </p>
-                        </div>
-                    </section>
-
-                    <section className="rounded-3xl bg-white p-8 text-slate-900 shadow-2xl">
-                        <h2 className="text-2xl font-black">Login</h2>
-                        <p className="mt-2 text-sm text-slate-600">
-                            Continue with your email and password.
-                        </p>
-
-                        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                            <div>
-                                <label htmlFor="email" className="mb-1 block text-sm font-semibold">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    placeholder="you@example.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="mb-1 block text-sm font-semibold">
-                                    Password
-                                </label>
-                                <input
-                                    id="password"
-                                    placeholder="Enter your password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-orange-400 focus:ring-2 focus:ring-orange-100"
-                                    required
-                                />
-                            </div>
-
-                            {error && (
-                                <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
-                                    {error}
-                                </p>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full rounded-xl bg-slate-900 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
-                            >
-                                {isSubmitting ? "Signing in..." : "Sign in"}
-                            </button>
-                        </form>
-
-                        <p className="mt-5 text-sm text-slate-600">
-                            New here?{" "}
-                            <Link href="/auth/signup" className="font-semibold text-orange-700 hover:underline">
-                                Create an account
-                            </Link>
-                        </p>
-                    </section>
+        <div className="mx-auto w-full max-w-6xl px-5 md:px-8 flex justify-center py-16 md:py-24">
+            <div className="w-full max-w-[26rem]">
+                <div className="text-center">
+                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">Welcome back</p>
+                    <h1 className="font-display font-semibold leading-[1.08] tracking-tight text-[clamp(1.5rem,1.15rem+1.1vw,1.95rem)] mt-3 text-ink">
+                        Sign in to your stays
+                    </h1>
+                    <p className="mt-3 text-[0.95rem] text-ink-soft">
+                        Your bookings, saved homes, and hosting tools in one place.
+                    </p>
                 </div>
+
+                <div className="rounded-3xl border border-line bg-surface shadow-card mt-8 p-7 shadow-soft">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div>
+                            <label htmlFor="email" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                autoComplete="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className="mb-1.5 block text-[0.8125rem] font-medium text-ink-soft">
+                                Password
+                            </label>
+                            <input
+                                id="password"
+                                type="password"
+                                autoComplete="current-password"
+                                placeholder="Enter your password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full rounded-xl border border-line-strong bg-surface px-3.5 py-2.5 text-[0.9375rem] text-ink transition placeholder:text-ink-muted focus:border-accent focus:outline-none focus:ring-[3px] focus:ring-accent/15"
+                                required
+                            />
+                        </div>
+
+                        {error && (
+                            <p className="rounded-xl border px-3.5 py-2.5 text-sm border-critical/30 bg-critical-soft text-critical" role="alert">
+                                {error}
+                            </p>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent font-medium leading-none transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 px-5 py-2.5 text-sm bg-accent text-white shadow-card hover:bg-accent-hover w-full"
+                        >
+                            {isSubmitting ? "Signing in…" : "Sign in"}
+                        </button>
+                    </form>
+                </div>
+
+                <p className="mt-6 text-center text-sm text-ink-soft">
+                    New to StayScape?{" "}
+                    <Link
+                        href="/auth/signup"
+                        className="font-medium text-accent underline-offset-4 hover:underline"
+                    >
+                        Create an account
+                    </Link>
+                </p>
             </div>
-        </main>
+        </div>
     );
 }
